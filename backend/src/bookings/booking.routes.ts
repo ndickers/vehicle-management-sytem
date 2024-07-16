@@ -18,7 +18,6 @@ const schema = z.object({
   locationId: z.number(),
   returnDate: z.string().date(),
   totalAmount: z.number().positive(),
-  bookingStatus: z.string(),
 });
 
 bookingRoutes.get("/bookings", getBookings);

@@ -38,7 +38,7 @@ export const bookings = pgTable("bookings", {
   locationId: integer("location_id").references((): any => location.id),
   returnDate: date("return_date").notNull(),
   totalAmount: decimal("total_amount").notNull(),
-  bookingStatus: varchar("booking_status").notNull(),
+  bookingStatus: varchar("booking_status").notNull().default("unpaid"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at"),
 });
@@ -64,12 +64,12 @@ export const bookingRelations = relations(bookings, ({ one }) => ({
 
 export const vehicles = pgTable("vehicles", {
   id: serial("id").primaryKey(),
-  vehicleSpecId: integer("vehicle_spec_id").references(
-    (): any => vehicleSpec.id,
-    {
-      onDelete: "cascade",
-    }
-  ),
+  // vehicleSpecId: integer("vehicle_spec_id").references(
+  //   (): any => vehicleSpec.id,
+  //   {
+  //     onDelete: "cascade",
+  //   }
+  // ),
   image: varchar("image").notNull(),
   rentRate: decimal("rentel_rate").notNull(),
   availability: boolean("availability").notNull(),
@@ -79,8 +79,8 @@ export const vehicles = pgTable("vehicles", {
 
 export const vehiclesRelations = relations(vehicles, ({ one, many }) => ({
   vehicle_specification: one(vehicleSpec, {
-    fields: [vehicles.vehicleSpecId],
-    references: [vehicleSpec.id],
+    fields: [vehicles.id],
+    references: [vehicleSpec.vehicleId],
   }),
   booking: many(bookings),
   fleet_management: many(fleetManagement),
@@ -118,6 +118,9 @@ export const authRelations = relations(authentication, ({ one }) => ({
 
 export const vehicleSpec = pgTable("vehicle_specification", {
   id: serial("id").primaryKey(),
+  vehicleId: integer("vehicle_id").references((): any => vehicles.id, {
+    onDelete: "cascade",
+  }),
   manufacturer: varchar("manufacturer").notNull(),
   model: varchar("model").notNull(),
   year: integer("year").notNull(),
@@ -130,8 +133,8 @@ export const vehicleSpec = pgTable("vehicle_specification", {
 });
 export const vehicleSpecRelations = relations(vehicleSpec, ({ one }) => ({
   vehicle: one(vehicles, {
-    fields: [vehicleSpec.id],
-    references: [vehicles.vehicleSpecId],
+    fields: [vehicleSpec.vehicleId],
+    references: [vehicles.id],
   }),
 }));
 

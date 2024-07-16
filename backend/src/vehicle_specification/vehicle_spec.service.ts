@@ -1,6 +1,6 @@
 import db from "../drizzle/db";
 import { eq } from "drizzle-orm";
-import { TSVehicleSpec,TIVehicleSpec, vehicleSpec } from "../drizzle/schema";
+import { TSVehicleSpec, TIVehicleSpec, vehicleSpec } from "../drizzle/schema";
 
 export async function serveVehicleSpec(): Promise<TSVehicleSpec[] | null> {
   return await db.query.vehicleSpec.findMany({
@@ -22,7 +22,7 @@ export async function serveOneVehicleSpec(
 }
 export async function createVehicleSpecService(
   vehicleSpecDetails: TIVehicleSpec
-): Promise<TSVehicleSpec[] | null> {
+): Promise<TSVehicleSpec[] | any> {
   return await db.insert(vehicleSpec).values(vehicleSpecDetails).returning({
     id: vehicleSpec.id,
     manufacturer: vehicleSpec.manufacturer,

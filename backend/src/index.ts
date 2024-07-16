@@ -9,8 +9,11 @@ import { authRoutes } from "./auth/auth.routes";
 import { customerSupportRoutes } from "./customerSupport/customer.routes";
 import { fleetManagementRoutes } from "./fleet_management/fleet_m.routes";
 import { vehicleSpecRoutes } from "./vehicle_specification/vehicle_spec.routes";
+import { cors } from "hono/cors";
 import db from "./drizzle/db";
 const app = new Hono();
+
+app.use(cors());
 
 app.route("/", usersRoutes);
 app.route("/", bookingRoutes);

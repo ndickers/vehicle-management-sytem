@@ -3,6 +3,7 @@ import {
   createPaymentService,
   getAllPaymentService,
   getOnePaymentService,
+  getUserbooking,
   servePaymentDelete,
 } from "./payment.service";
 import "dotenv/config";
@@ -58,26 +59,34 @@ export async function deletePayment(c: Context) {
 
 export async function createCheckout(c: Context) {
   //  Create here items to be payed for
-  const session = await stripe.checkout.sessions.create({
-    line_items: [
-      {
-        price_data: {
-          currency: "usd",
-          product_data: {
-            name: "T-shirt",
-          },
-          unit_amount: 400 * 100,
-        },
-        quantity: 1,
+
+  //get with user id
+  const userId = Number(c.req.param("id"));
+  const getBookings = await getUserbooking(userId);
+
+  const vehiclesToBePaid = getBookings.map((booking) => ({
+    price_data: {
+      currency: "usd",
+      product_data: {
+        name:
+          booking?.vehicles?.vehicle_specification?.manufacturer ||
+          "unknown vehicle",
       },
-    ],
+      unit_amount: Number(booking.totalAmount) * 100,
+    },
+    quantity: 1,
+  }));
+
+  const session = await stripe.checkout.sessions.create({
+    line_items: vehiclesToBePaid,
     mode: "payment",
     success_url:
       `${process.env.BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}` as string,
     cancel_url: `${process.env.BASE_URL}/cancel`,
   });
+
   console.log(session.url);
-  return c.text("Hello");
+  return c.redirect(session.url as string);
 }
 
 export async function success(c: Context) {
@@ -86,23 +95,24 @@ export async function success(c: Context) {
   if (!sessionId) {
     return c.json({ error: "session_id is required" }, 400);
   }
-
+  const lineItems = await stripe.checkout.sessions.listLineItems(sessionId);
   const session = await stripe.checkout.sessions.retrieve(sessionId);
+  console.log(lineItems);
 
-  const createdTimestamp = session.created;
-  const createdDate = new Date(createdTimestamp * 1000);
+  // const createdTimestamp = session.created;
+  // const createdDate = new Date(createdTimestamp * 1000);
 
-  const paymentDetails = {
-    bookingId: 5,
-    amount: session.amount_total && session.amount_total / 100,
-    paymentStatus: session.status,
-    paymentDate: createdDate.toISOString(),
-    paymentMethod:
-      session.payment_method_options &&
-      Object.keys(session.payment_method_options)[0],
-    transactionId: session.payment_intent,
-  };
-  await createPaymentService(paymentDetails);
+  // const paymentDetails = {
+  //   bookingId: 5,
+  //   amount: session.amount_total && session.amount_total / 100,
+  //   paymentStatus: session.status,
+  //   paymentDate: createdDate.toISOString(),
+  //   paymentMethod:
+  //     session.payment_method_options &&
+  //     Object.keys(session.payment_method_options)[0],
+  //   transactionId: session.payment_intent,
+  // };
+  // await createPaymentService(paymentDetails);
   return c.text("Successfull payment");
 }
 export async function failed(c: Context) {

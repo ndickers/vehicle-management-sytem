@@ -1,35 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import LandingPage from "./pages/LandingPage";
+import RegisterUser from "./pages/RegisterUser";
+import AdminLogin from "./pages/AdminLogin";
+import UserLogin from "./pages/UserLogin";
+import Dashboard from "./dashboard/user/pages/Dashboard";
+import AdminDashboard from "./dashboard/admin/pages/Dashboard";
+import ViewVehicles from "./dashboard/user/pages/ViewVehicles";
+import BookedVehicle from "./dashboard/user/pages/BookedVehicle";
+import Vehicles from "./dashboard/admin/pages/Vehicles";
+import Users from "./dashboard/admin/pages/Users";
+import Location from "./dashboard/admin/pages/Location";
+import Fleets from "./dashboard/admin/pages/Fleets";
+import Reports from "./dashboard/admin/pages/Reports";
+import Contact from "./dashboard/user/pages/Contact";
+import ManageSupport from "./dashboard/user/pages/ManageSupport";
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <LandingPage />,
+  },
+  { path: "/login/admin", element: <AdminLogin /> },
+  { path: "/login/user", element: <UserLogin /> },
+  { path: "/register", element: <RegisterUser /> },
+
+  {
+    path: "/dashboard/admin",
+    element: <AdminDashboard />,
+    children: [
+      { path: "", element: <Vehicles /> },
+      { path: "users", element: <Users /> },
+      { path: "locations", element: <Location /> },
+      { path: "fleets", element: <Fleets /> },
+      { path: "reports", element: <Reports /> },
+    ],
+  },
+  {
+    path: "/dashboard/user",
+    element: <Dashboard />,
+    children: [
+      { path: "", element: <ViewVehicles /> },
+      { path: "booked-vehicles", element: <BookedVehicle /> },
+      { path: "contact-support", element: <Contact /> },
+      { path: "manage-support", element: <ManageSupport /> },
+    ],
+  },
+]);
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="bg-black root">
+      <RouterProvider router={router} />
+    </div>
+  );
 }
 
-export default App
+export default App;

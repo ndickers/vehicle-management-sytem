@@ -1,68 +1,49 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+@layer base {
+  * {
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+    padding: 0;
+    margin: 0;
   }
-  a:hover {
-    color: #747bff;
+  #home {
+    background-image: url(./assets/bg-image.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
   }
-  button {
-    background-color: #f9f9f9;
+  #login {
+    background: url(./assets/login-bg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  #register,
+  .root {
+    background: url(./assets/register-bg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+}
+
+@layer components {
+  .btns {
+    @apply w-[7rem] text-xl font-semibold inline-block py-2 text-center rounded-3xl;
+  }
+  .link-btn {
+    @apply font-medium hover:underline hover:text-[#CAC326];
+  }
+  .form-input {
+    @apply my-4 rounded-lg px-3 py-3 placeholder:text-xl placeholder:text-black placeholder:text-opacity-70 bg-opacity-70 bg-white;
+  }
+  .update-form {
+    @apply my-4 rounded-lg px-3 py-3 placeholder:text-xl text-black placeholder:text-black bg-white;
+  }
+  .submit-btn {
+    @apply border-2 border-white p-3 mt-3 rounded-lg text-white text-lg font-semibold;
+  }
+  .vehicle-td-style {
+    @apply border w-[12.5%] border-black;
   }
 }

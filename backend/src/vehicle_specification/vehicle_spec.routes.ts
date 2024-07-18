@@ -17,6 +17,7 @@ const schema = z.object({
   model: z.string(),
   seatingCapacity: z.number(),
   year: z.number(),
+  vehicleId: z.number(),
   fuelType: z.string(),
   engineCapacity: z.string(),
   transmission: z.string(),

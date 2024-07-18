@@ -16,7 +16,7 @@ export async function getVehicles(c: Context) {
     if (vehicles?.length === 0) {
       return c.json({ message: "No vehicle registered" });
     }
-    return c.json(vehicles);
+    return c.json({ data: vehicles });
   } catch (error) {
     return c.json({ error }, 404);
   }

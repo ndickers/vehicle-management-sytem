@@ -8,14 +8,14 @@ import {
   updateVehicle,
   deleteVehicle,
 } from "./vehicles.controller";
+
 import { validateInput } from "../middleware/validate";
 
 export const vehicleRoutes = new Hono();
-
 const schema = z.object({
-  vehicleSpecId: z.number(),
   rentRate: z.number(),
   availability: z.boolean(),
+  image: z.string(),
 });
 
 vehicleRoutes.get("/vehicles", getVehicles);

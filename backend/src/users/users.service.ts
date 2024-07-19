@@ -8,7 +8,15 @@ export async function serveUsers(): Promise<TSUsers[] | null> {
       bookings: {
         columns: { locationId: false, vehicleId: false, userId: false },
         with: {
-          vehicles: true,
+          vehicles: {
+            with: {
+              vehicle_specification: {
+                columns: {
+                  vehicleId: false,
+                },
+              },
+            },
+          },
         },
       },
       customerSupportTickets: {
@@ -25,7 +33,13 @@ export async function serveOneUser(id: number): Promise<TSUsers[] | null> {
       bookings: {
         columns: { locationId: false, vehicleId: false, userId: false },
         with: {
-          vehicles: true,
+          vehicles: {
+            with: {
+              vehicle_specification: {
+                columns: { vehicleId: false },
+              },
+            },
+          },
         },
       },
       customerSupportTickets: {

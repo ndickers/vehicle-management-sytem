@@ -1,21 +1,31 @@
-import carImg from "../assets/car-img.jpg";
 import { useState } from "react";
 
-export default function Car({ onClick }) {
+export default function Car(props) {
   const [showSpec, setShowSpec] = useState(false);
 
+  const date = new Date(props.createdAt);
+
+  const localDate = date.toLocaleDateString();
+  const localTime = date.toLocaleTimeString();
   return (
     <div className="w-[15rem] bg-white text-black contain-content rounded-xl p-4">
-      <img className="w-full h-[10rem] object-cover " src={carImg} alt="" />
+      <img
+        className="w-full h-[10rem] object-cover "
+        src={props.image}
+        alt=""
+      />
       <div className="mt-4 w-full">
         <p>
-          <span className="font-semibold">Name:</span> Toyota
+          <span className="font-semibold">Name:</span>{" "}
+          {props?.vehicle_specification?.model}
         </p>
         <p>
-          <span className="font-semibold">Available:</span> yes
+          <span className="font-semibold">Available:</span>{" "}
+          {props.availability ? "yes" : "no"}
         </p>
         <p>
-          <span className="font-semibold">Rent rate:</span> $200 per hr
+          <span className="font-semibold">Rent rate:</span>{" "}
+          {`$${props?.rentRate} per hr`}
         </p>
         {!showSpec && (
           <button
@@ -29,28 +39,36 @@ export default function Car({ onClick }) {
         {showSpec && (
           <div>
             <p className="text-sm mt-1">
-              <span className="font-semibold">Manufacturer:</span> Toyota
+              <span className="font-semibold">Manufacturer:</span>{" "}
+              {props.vehicle_specification.manufacturer}
             </p>
             <p className="text-sm mt-[2px]">
-              <span className="font-semibold">Model:</span> yes
+              <span className="font-semibold">Model:</span>{" "}
+              {props.vehicle_specification.model}
             </p>
             <p className="text-sm mt-[2px]">
-              <span className="font-semibold">Year:</span> $200 per hr
+              <span className="font-semibold">Year:</span>{" "}
+              {props.vehicle_specification.year}
             </p>
             <p className="text-sm mt-[2px]">
-              <span className="font-semibold">Engine capacity:</span> 200cc hr
+              <span className="font-semibold">Engine capacity:</span>{" "}
+              {props.vehicle_specification.engineCapacity}
             </p>
             <p className="text-sm mt-[2px]">
-              <span className="font-semibold">Fuel type:</span> diesel
+              <span className="font-semibold">Fuel type:</span>{" "}
+              {props.vehicle_specification.fuelType}
             </p>
             <p className="text-sm mt-[2px]">
-              <span className="font-semibold">Number of seat:</span> 4 hr
+              <span className="font-semibold">Number of seat:</span>{" "}
+              {props.vehicle_specification.seatingCapacity}
             </p>
             <p className="text-sm mt-[2px]">
-              <span className="font-semibold">color:</span> navy blue
+              <span className="font-semibold">color:</span>{" "}
+              {props.vehicle_specification.color}
             </p>
             <p className="text-sm mt-[2px]">
-              <span className="font-semibold">Features:</span> spoilers
+              <span className="font-semibold">Features:</span>{" "}
+              {props.vehicle_specification.features}
             </p>
             <button
               onClick={() => setShowSpec(false)}
@@ -63,14 +81,19 @@ export default function Car({ onClick }) {
       </div>
       <div className="flex justify-between mt-4 items-center">
         <button
-          onClick={onClick}
+          onClick={props.onClick}
           className="bg-black block rounded-md py-1 px-3  text-white"
         >
           book car
         </button>
-        <p className="text-xs">
-          <span className="font-semibold">Time:</span> 20:08:21
-        </p>
+        <div>
+          <p className="text-[10px]">
+            <span className="font-semibold">Date:</span> {localDate}
+          </p>
+          <p className="text-[10px]">
+            <span className="font-semibold">Time:</span> {localTime}
+          </p>
+        </div>
       </div>
     </div>
   );

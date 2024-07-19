@@ -9,6 +9,9 @@ export const vehicleApi = createApi({
     getVehicles: builder.query({
       query: () => "/vehicles",
     }),
+    getLocation: builder.query({
+      query: () => "/location",
+    }),
     createVehicle: builder.mutation({
       query: (vehicle) => ({
         url: "/vehicles",
@@ -16,7 +19,27 @@ export const vehicleApi = createApi({
         body: vehicle,
       }),
     }),
+    createVehicleSpec: builder.mutation({
+      query: (vehicleSpec) => ({
+        url: "/vehicle-specification",
+        method: "POST",
+        body: vehicleSpec,
+      }),
+    }),
+    createLocation: builder.mutation({
+      query: (location) => ({
+        url: "/location",
+        method: "POST",
+        body: location,
+      }),
+    }),
   }),
 });
 
-export const { useGetVehiclesQuery, useCreateVehicleMutation } = vehicleApi;
+export const {
+  useGetVehiclesQuery,
+  useGetLocationQuery,
+  useCreateVehicleSpecMutation,
+  useCreateVehicleMutation,
+  useCreateLocationMutation,
+} = vehicleApi;

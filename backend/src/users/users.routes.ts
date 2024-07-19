@@ -23,7 +23,7 @@ const schema = z.object({
 });
 
 usersRoutes.get("/users", getUsers);
-usersRoutes.get("/users/:id", userAuth, getOneUser);
+usersRoutes.get("/users/:id", getOneUser);
 
 usersRoutes.post(
   "/users",

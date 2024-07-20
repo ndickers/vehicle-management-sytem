@@ -84,4 +84,3 @@ export async function deleteUser(c: Context) {
     return c.json({ error }, 404);
   }
 }
-

@@ -51,7 +51,7 @@ export async function loginUser(c: Context) {
         return c.json({ message: "Wrong password" }, 400);
       }
       const token = await jwt.sign(credentials, process.env.SECRET as string);
-      return c.json(token);
+      return c.json({ token, user: getUser });
     } else {
       return c.json({ Error: "Confirm your role" }, 404);
     }

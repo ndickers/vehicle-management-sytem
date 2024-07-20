@@ -63,7 +63,7 @@ export async function createCheckout(c: Context) {
   const getBookings = await c.req.json();
   console.log(getBookings);
 
-  const vehiclesToBePaid = getBookings.map((booking) => ({
+  const vehiclesToBePaid = getBookings.map((booking: any) => ({
     price_data: {
       currency: "usd",
       product_data: {
@@ -79,63 +79,8 @@ export async function createCheckout(c: Context) {
   const session = await stripe.checkout.sessions.create({
     line_items: vehiclesToBePaid,
     mode: "payment",
-    success_url:
-      `${process.env.BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}` as string,
-    cancel_url: `${process.env.BASE_URL}/cancel`,
+    success_url: `${process.env.BASE_URL}/success` as string,
+    cancel_url: `${process.env.BASE_URL}/failed`,
   });
-
-  console.log(session.url);
-  return c.redirect(session.url as string);
-
-}
-
-export async function success(c: Context) {
-  const sessionId: string | undefined = c.req.query("session_id");
-
-  if (!sessionId) {
-    return c.json({ error: "session_id is required" }, 400);
-  }
-  const lineItems = await stripe.checkout.sessions.listLineItems(sessionId);
-  const session = await stripe.checkout.sessions.retrieve(sessionId);
-  console.log(lineItems);
-
-  // const createdTimestamp = session.created;
-  // const createdDate = new Date(createdTimestamp * 1000);
-
-  // const paymentDetails = {
-  //   bookingId: 5,
-  //   amount: session.amount_total && session.amount_total / 100,
-  //   paymentStatus: session.status,
-  //   paymentDate: createdDate.toISOString(),
-  //   paymentMethod:
-  //     session.payment_method_options &&
-  //     Object.keys(session.payment_method_options)[0],
-  //   transactionId: session.payment_intent,
-  // };
-  // await createPaymentService(paymentDetails);
-  return c.text("Successfull payment");
-}
-export async function failed(c: Context) {
-  const sessionId: string | undefined = c.req.query("session_id");
-  if (!sessionId) {
-    return c.json({ error: "session_id is required" }, 400);
-  }
-
-  const session = await stripe.checkout.sessions.retrieve(sessionId);
-
-  const createdTimestamp = session.created;
-  const createdDate = new Date(createdTimestamp * 1000);
-
-  const paymentDetails = {
-    bookingId: 5,
-    amount: session.amount_total && session.amount_total / 100,
-    paymentStatus: session.status,
-    paymentDate: createdDate.toISOString(),
-    paymentMethod:
-      session.payment_method_options &&
-      Object.keys(session.payment_method_options)[0],
-    transactionId: session.payment_intent,
-  };
-  await createPaymentService(paymentDetails);
-  return c.text("failed payment");
+  return c.json({ sessionId: session.id });
 }

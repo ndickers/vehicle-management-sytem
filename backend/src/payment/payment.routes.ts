@@ -6,8 +6,6 @@ import {
   getOnePayment,
   createCheckout,
   deletePayment,
-  success,
-  failed,
 } from "./payment.controller";
 
 export const paymentRoutes = new Hono();
@@ -18,6 +16,4 @@ paymentRoutes.get("/payments/:id", getOnePayment);
 paymentRoutes.delete("/payments/:id", deletePayment);
 
 //=========payment implementation=====
-paymentRoutes.get("/checkout/:id", createCheckout);
-paymentRoutes.get("/success", success);
-paymentRoutes.get("/cancel", failed);
+paymentRoutes.post("/checkout", createCheckout);

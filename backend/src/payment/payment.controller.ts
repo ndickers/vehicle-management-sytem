@@ -79,8 +79,8 @@ export async function createCheckout(c: Context) {
   const session = await stripe.checkout.sessions.create({
     line_items: vehiclesToBePaid,
     mode: "payment",
-    success_url: `${process.env.BASE_URL}/success` as string,
-    cancel_url: `${process.env.BASE_URL}/failed`,
+    success_url: "",
+    cancel_url: "",
   });
   return c.json({ sessionId: session.id });
 }

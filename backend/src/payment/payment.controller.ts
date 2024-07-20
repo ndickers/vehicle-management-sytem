@@ -60,9 +60,8 @@ export async function deletePayment(c: Context) {
 export async function createCheckout(c: Context) {
   //  Create here items to be payed for
 
-  //get with user id
-  const userId = Number(c.req.param("id"));
-  const getBookings = await getUserbooking(userId);
+  const getBookings = await c.req.json();
+  console.log(getBookings);
 
   const vehiclesToBePaid = getBookings.map((booking) => ({
     price_data: {
@@ -87,6 +86,7 @@ export async function createCheckout(c: Context) {
 
   console.log(session.url);
   return c.redirect(session.url as string);
+
 }
 
 export async function success(c: Context) {

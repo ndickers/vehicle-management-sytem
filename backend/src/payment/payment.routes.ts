@@ -18,6 +18,6 @@ paymentRoutes.get("/payments/:id", getOnePayment);
 paymentRoutes.delete("/payments/:id", deletePayment);
 
 //=========payment implementation=====
-paymentRoutes.post("/checkout/:id", createCheckout);
+paymentRoutes.get("/checkout/:id", createCheckout);
 paymentRoutes.get("/success", success);
 paymentRoutes.get("/cancel", failed);

@@ -9,7 +9,7 @@ import {
   deleteBooking,
 } from "./booking.controller";
 import { validateInput } from "../middleware/validate";
-
+import { authorizeAll } from "../middleware/authorization";
 export const bookingRoutes = new Hono();
 
 const schema = z.object({
@@ -21,13 +21,13 @@ const schema = z.object({
 });
 
 bookingRoutes.get("/bookings", getBookings);
-bookingRoutes.get("/bookings/:id", getOneBooking);
+bookingRoutes.get("/bookings/:id",authorizeAll , getOneBooking);
 
 bookingRoutes.post(
   "/bookings",
-  zValidator("json", schema, validateInput),
+  zValidator("json", schema, validateInput),authorizeAll,
   createBooking
 );
 
-bookingRoutes.put("/bookings/:id", updateBooking);
-bookingRoutes.delete("/bookings/:id", deleteBooking);
+bookingRoutes.put("/bookings/:id", authorizeAll,updateBooking);
+bookingRoutes.delete("/bookings/:id",authorizeAll, deleteBooking);

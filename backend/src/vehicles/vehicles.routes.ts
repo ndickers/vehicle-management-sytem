@@ -8,7 +8,7 @@ import {
   updateVehicle,
   deleteVehicle,
 } from "./vehicles.controller";
-
+import { adminAuth, authorizeAll } from "../middleware/authorization";
 import { validateInput } from "../middleware/validate";
 
 export const vehicleRoutes = new Hono();
@@ -18,14 +18,15 @@ const schema = z.object({
   image: z.string(),
 });
 
-vehicleRoutes.get("/vehicles", getVehicles);
-vehicleRoutes.get("/vehicles/:id", getOneVehicle);
+vehicleRoutes.get("/vehicles", authorizeAll, getVehicles);
+vehicleRoutes.get("/vehicles/:id", authorizeAll, getOneVehicle);
 
 vehicleRoutes.post(
   "/vehicles",
   zValidator("json", schema, validateInput),
+  adminAuth,
   createVehicle
 );
 
-vehicleRoutes.put("/vehicles/:id", updateVehicle);
-vehicleRoutes.delete("/vehicles/:id", deleteVehicle);
+vehicleRoutes.put("/vehicles/:id", adminAuth, updateVehicle);
+vehicleRoutes.delete("/vehicles/:id", adminAuth, deleteVehicle);

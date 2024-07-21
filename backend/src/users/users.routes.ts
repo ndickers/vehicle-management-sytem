@@ -8,7 +8,7 @@ import {
   updateUser,
   deleteUser,
 } from "./users.controller";
-import { userAuth } from "../middleware/authorization";
+import { adminAuth, authorizeAll } from "../middleware/authorization";
 import { validateInput } from "../middleware/validate";
 
 export const usersRoutes = new Hono();
@@ -22,14 +22,15 @@ const schema = z.object({
   password: z.string(),
 });
 
-usersRoutes.get("/users", getUsers);
-usersRoutes.get("/users/:id", getOneUser);
+usersRoutes.get("/users", adminAuth, getUsers);
+usersRoutes.get("/users/:id", authorizeAll, getOneUser);
 
 usersRoutes.post(
   "/users",
   zValidator("json", schema, validateInput),
+  adminAuth,
   createUser
 );
 
-usersRoutes.put("/users/:id", updateUser);
-usersRoutes.delete("/users/:id", deleteUser);
+usersRoutes.put("/users/:id", authorizeAll, updateUser);
+usersRoutes.delete("/users/:id", authorizeAll, deleteUser);

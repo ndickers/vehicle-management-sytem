@@ -48,7 +48,7 @@ export async function loginUser(c: Context) {
       const getPass = await getUserAuth(getUser[0].id);
       const compare = await bcrypt.compare(password, getPass[0].password);
       if (!compare) {
-        return c.json({ message: "Wrong password" }, 400);
+        return c.json({ message: "Incorrect email or password" }, 400);
       }
       const token = await jwt.sign(credentials, process.env.SECRET as string);
       return c.json({ token, user: getUser });

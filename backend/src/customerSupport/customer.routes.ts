@@ -9,24 +9,36 @@ import {
   deleteCustomerSupport,
 } from "./customer.controller";
 import { validateInput } from "../middleware/validate";
-
+import { authorizeAll, adminAuth } from "../middleware/authorization";
 export const customerSupportRoutes = new Hono();
 
 const schema = z.object({
   userId: z.number(),
   subject: z.string(),
   description: z.string(),
-  status: z.string(),
 });
 
-customerSupportRoutes.get("/customer-support", getCustomerSupport);
-customerSupportRoutes.get("/customer-support/:id", getOneCustomerSupport);
+customerSupportRoutes.get("/customer-support", adminAuth, getCustomerSupport);
+customerSupportRoutes.get(
+  "/customer-support/:id",
+  authorizeAll,
+  getOneCustomerSupport
+);
 
 customerSupportRoutes.post(
   "/customer-support",
   zValidator("json", schema, validateInput),
+  authorizeAll,
   createCustomerSupport
 );
 
-customerSupportRoutes.put("/customer-support/:id", updateCustomerSupport);
-customerSupportRoutes.delete("/customer-support/:id", deleteCustomerSupport);
+customerSupportRoutes.put(
+  "/customer-support/:id",
+  authorizeAll,
+  updateCustomerSupport
+);
+customerSupportRoutes.delete(
+  "/customer-support/:id",
+  authorizeAll,
+  deleteCustomerSupport
+);

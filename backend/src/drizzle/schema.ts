@@ -166,7 +166,7 @@ export const customerSupportTicket = pgTable("customer_support_ticket", {
   userId: integer("user_id").references((): any => users.id),
   subject: varchar("subject").notNull(),
   description: text("description").notNull(),
-  status: varchar("status").notNull(),
+  status: varchar("status").notNull().default("pending"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at"),
 });

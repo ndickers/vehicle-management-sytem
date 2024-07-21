@@ -9,7 +9,7 @@ import {
   deleteBooking,
 } from "./booking.controller";
 import { validateInput } from "../middleware/validate";
-import { authorizeAll } from "../middleware/authorization";
+import { authorizeAll, adminAuth } from "../middleware/authorization";
 export const bookingRoutes = new Hono();
 
 const schema = z.object({
@@ -20,7 +20,7 @@ const schema = z.object({
   totalAmount: z.number().positive(),
 });
 
-bookingRoutes.get("/bookings", getBookings);
+bookingRoutes.get("/bookings",adminAuth ,getBookings);
 bookingRoutes.get("/bookings/:id",authorizeAll , getOneBooking);
 
 bookingRoutes.post(

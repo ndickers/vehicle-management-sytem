@@ -9,7 +9,7 @@ import {
   deleteCustomerSupport,
 } from "./customer.controller";
 import { validateInput } from "../middleware/validate";
-import { authorizeAll, adminAuth } from "../middleware/authorization";
+import { authorizeAll, adminAuth, userAuth } from "../middleware/authorization";
 export const customerSupportRoutes = new Hono();
 
 const schema = z.object({
@@ -28,7 +28,7 @@ customerSupportRoutes.get(
 customerSupportRoutes.post(
   "/customer-support",
   zValidator("json", schema, validateInput),
-  authorizeAll,
+  userAuth,
   createCustomerSupport
 );
 

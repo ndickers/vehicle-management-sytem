@@ -23,7 +23,7 @@ export async function serveOneCustomerSupport(
   id: number
 ): Promise<TBaseSupport[] | null> {
   return await db.query.customerSupportTicket.findMany({
-    where: eq(customerSupportTicket.id, id),
+    where: eq(customerSupportTicket.userId, id),
     columns: {
       userId: false,
     },

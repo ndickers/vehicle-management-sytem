@@ -28,7 +28,7 @@ usersRoutes.get("/users/:id", authorizeAll, getOneUser);
 usersRoutes.post(
   "/users",
   zValidator("json", schema, validateInput),
-  adminAuth,
+  authorizeAll,
   createUser
 );
 

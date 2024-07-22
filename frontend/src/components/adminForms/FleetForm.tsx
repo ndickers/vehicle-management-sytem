@@ -1,12 +1,84 @@
-import { useForm } from "react-hook-form";
+import { useForm,FieldError } from "react-hook-form";
+import {
+  useCreateFleetMutation,
+  useUpdateFleetMutation,
+} from "./../../features/api/vehiclesApi";
+import { useEffect } from "react";
 
-export default function FleetForm({ setShowFleetForm }) {
+export default function FleetForm({ setShowFleetForm, update, fleet }) {
+  const [createFleet, { isError, error, isLoading }] = useCreateFleetMutation();
+  const [
+    updateFleet,
+    { isError: fleetIsError, error: fleetError, isLoading: fleetIsLoading },
+  ] = useUpdateFleetMutation();
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  
+
+  useEffect(() => {
+    if (update) {
+      reset({
+        vehicleId: Number(fleet.vehicleId),
+        acquisitionDate: fleet.acquisitionDate,
+        depreciationRate: Number(fleet.depreciationRate),
+        currentValue: Number(fleet.currentValue),
+        maintenanceCost: Number(fleet.maintenanceCost),
+        status: fleet.status,
+      });
+    }
+  }, [update, fleet, reset]);
+
+  async function submitFleet(data) {
+    if (fleet === null) {
+      const fleetData = {
+        ...data,
+        vehicleId: Number(data.vehicleId),
+        depreciationRate: Number(data.depreciationRate),
+        currentValue: Number(data.currentValue),
+        maintenanceCost: Number(data.maintenanceCost),
+      };
+      try {
+        const result = await createFleet(fleetData).unwrap();
+        console.log(result);
+        reset();
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      const fleetData = {
+        ...data,
+        vehicleId: Number(data.vehicleId),
+        depreciationRate: Number(data.depreciationRate),
+        currentValue: Number(data.currentValue),
+        maintenanceCost: Number(data.maintenanceCost),
+      };
+      try {
+        const result = await updateFleet({ fleet: fleetData, id: fleet.id });
+        console.log(result);
+      } catch (error) {
+        console.log(error);
+      }
+      console.log("");
+    }
+  }
+  if (isLoading) {
+    return <h1>creating fleet....</h1>;
+  }
+  if (isError) {
+    console.log(error);
+    return <h1>server error, unable to creat fleet</h1>;
+  }
+  if (fleetIsLoading) {
+    return <h1>updating fleet....</h1>;
+  }
+  if (fleetIsError) {
+    console.log(fleetError);
+    return <h1>Server error, unable to update fleet</h1>;
+  }
+
   return (
     <div
       onClick={(e) => {
@@ -16,63 +88,93 @@ export default function FleetForm({ setShowFleetForm }) {
       }}
       className="bg-black opacity-80 z-10 h-[100%] w-[100%] top-0 left-0  absolute pt-8"
     >
-      <h1 className="text-center text-2xl font-bold mb-6">Add fleet</h1>
+      <h1 className="text-center text-2xl font-bold mb-6">
+        {update ? "update fleet" : "Add fleet"}
+      </h1>
       <form
-        onSubmit={handleSubmit((data) => console.log(data))}
+        onSubmit={handleSubmit(submitFleet)}
         action=""
         className="mb-8 m-auto flex flex-col max-w-[25rem]"
       >
         <input
-          {...register("username", { required: "username is require" })}
+          {...register("vehicleId", { required: "vehicle id is require" })}
           className="update-form "
-          type="text"
-          placeholder="username"
+          type="number"
+          placeholder="vehicle identity"
         />
-        {errors.username !== undefined && (
-          <p className="text-[#d9534f]">{errors?.username.message}</p>
+        {errors.vehicleId !== undefined && (
+          <p className="text-[#d9534f]">
+            {(errors.vehicleId as FieldError)?.message ||
+              "Status error message not available"}
+          </p>
         )}
+
         <input
-          {...register("email", { required: "email is required" })}
+          {...register("acquisitionDate", {
+            required: "return date is required",
+          })}
+          className="update-form "
+          type="date"
+          placeholder="acquisition date"
+        />
+        <input
+          {...register("depreciationRate", {
+            required: "depreciation rate is required",
+          })}
           className="update-form bg-white"
-          type="email"
-          placeholder="email"
+          type="number"
+          placeholder="depreciation rate"
         />
-        {errors.email !== undefined && (
-          <p className="text-[#d9534f]">{errors.email.message}</p>
+        {errors.depreciationRate !== undefined && (
+          <p className="text-[#d9534f]">
+            {(errors.depreciationRate as FieldError)?.message ||
+              "Status error message not available"}
+          </p>
         )}
         <input
-          {...register("phone", {
-            required: "phone is required",
+          {...register("currentValue", {
+            required: "current value is required",
           })}
           className="update-form "
           type="number"
-          placeholder="phone"
+          placeholder="current value"
         />
-        {errors.phone !== undefined && (
-          <p className="text-[#d9534f]">{errors.phone.message}</p>
+        {errors.currentValue !== undefined && (
+          <p className="text-[#d9534f]">
+            {(errors.currentValue as FieldError)?.message ||
+              "Status error message not available"}
+          </p>
         )}
         <input
-          {...register("address", { required: "address is required" })}
+          {...register("maintenanceCost", {
+            required: "maintenance cost is required",
+          })}
           className="update-form"
           type="text"
-          placeholder="address"
+          placeholder="maintenance cost"
         />
-        {errors.address !== undefined && (
-          <p className="text-[#d9534f]">{errors.address.message}</p>
+        {errors.maintenanceCost !== undefined && (
+          <p className="text-[#d9534f]">
+            {(errors.maintenanceCost as FieldError)?.message ||
+              "maintenance cost error message not available"}
+          </p>
         )}
         <select
-          {...register("role", { required: "role is required" })}
+          {...register("status", { required: "role is required" })}
           className="update-form text-black"
-          name="role"
+          name="status"
         >
-          <option value="user">user</option>
-          <option value="admin">admin</option>
+          <option value="new">new</option>
+          <option value="good">good</option>
+          <option value="fair">fair</option>
+          <option value="poor">poor</option>
         </select>
         {errors.role !== undefined && (
-          <p className="text-[#d9534f]">{errors.role.message}</p>
+          <p className="text-[#d9534f]">{(errors.status as FieldError)?.message ||
+            "status error message not available"}</p>
         )}
         <button className="submit-btn ">
-          post fleet
+          {update ? "update fleet" : "post fleet"}
         </button>
       </form>
     </div>

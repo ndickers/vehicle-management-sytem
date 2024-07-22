@@ -1,16 +1,33 @@
-import { useForm } from "react-hook-form";
+import { useForm, FieldError } from "react-hook-form";
+import { useCreateVehicleSpecMutation } from "../../features/api/vehiclesApi";
 
 export default function VehicleSpecForm({ setShowSpecForm, vehicleId }) {
+  const [createVehicleSpec, { isLoading }] = useCreateVehicleSpecMutation();
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  function submitVehicleSpec(data) {
+  async function submitVehicleSpec(data) {
     console.log(data);
-
-    console.log(vehicleId);
+    const vehicleSpecs = {
+      ...data,
+      seatingCapacity: Number(data.seatingCapacity),
+      year: Number(data.year),
+      vehicleId,
+    };
+    try {
+      const result = await createVehicleSpec(vehicleSpecs).unwrap();
+      reset();
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  if (isLoading) {
+    return <h1>Adding specification...</h1>;
   }
 
   return (
@@ -37,7 +54,10 @@ export default function VehicleSpecForm({ setShowSpecForm, vehicleId }) {
           placeholder="manufacturer"
         />
         {errors.manufacturer !== undefined && (
-          <p className="text-[#d9534f]">{errors?.manufacturer.message}</p>
+          <p className="text-[#d9534f]">
+            {(errors.manufacturer as FieldError)?.message ||
+              "maintenance cost error message not available"}
+          </p>
         )}
         <input
           {...register("model", { required: "model is require" })}
@@ -46,7 +66,10 @@ export default function VehicleSpecForm({ setShowSpecForm, vehicleId }) {
           placeholder="model"
         />
         {errors.model !== undefined && (
-          <p className="text-[#d9534f]">{errors?.model.message}</p>
+          <p className="text-[#d9534f]">
+            {(errors.model as FieldError)?.message ||
+              "maintenance cost error message not available"}
+          </p>
         )}
         <input
           {...register("year", { required: "year is require" })}
@@ -55,7 +78,10 @@ export default function VehicleSpecForm({ setShowSpecForm, vehicleId }) {
           placeholder="year"
         />
         {errors.year !== undefined && (
-          <p className="text-[#d9534f]">{errors?.year.message}</p>
+          <p className="text-[#d9534f]">
+            {(errors.year as FieldError)?.message ||
+              "maintenance cost error message not available"}
+          </p>
         )}
         <select
           {...register("fuelType", { required: "fuel type is require" })}
@@ -67,7 +93,10 @@ export default function VehicleSpecForm({ setShowSpecForm, vehicleId }) {
           <option value="super diesel">super diesel</option>
         </select>
         {errors.fuelType !== undefined && (
-          <p className="text-[#d9534f]">{errors?.fuelType.message}</p>
+          <p className="text-[#d9534f]">
+            {(errors.fuelType as FieldError)?.message ||
+              "maintenance cost error message not available"}
+          </p>
         )}
         <input
           {...register("engineCapacity", {
@@ -78,7 +107,10 @@ export default function VehicleSpecForm({ setShowSpecForm, vehicleId }) {
           placeholder="engine capacity"
         />
         {errors.engineCapacity !== undefined && (
-          <p className="text-[#d9534f]">{errors?.engineCapacity.message}</p>
+          <p className="text-[#d9534f]">
+            {(errors.engineCapacity as FieldError)?.message ||
+              "engine capacity error message not available"}
+          </p>
         )}
         <select
           {...register("transmission", { required: "transmission is require" })}
@@ -91,7 +123,10 @@ export default function VehicleSpecForm({ setShowSpecForm, vehicleId }) {
           <option value="continously variable">continously variable</option>
         </select>
         {errors.transmission !== undefined && (
-          <p className="text-[#d9534f]">{errors?.transmission.message}</p>
+          <p className="text-[#d9534f]">
+            {(errors.transmission as FieldError)?.message ||
+              "maintenance cost error message not available"}
+          </p>
         )}
         <input
           {...register("seatingCapacity", {
@@ -102,7 +137,10 @@ export default function VehicleSpecForm({ setShowSpecForm, vehicleId }) {
           placeholder="seat capacity"
         />
         {errors.seatingCapacity !== undefined && (
-          <p className="text-[#d9534f]">{errors?.seatingCapacity.message}</p>
+          <p className="text-[#d9534f]">
+            {(errors.seatingCapacity as FieldError)?.message ||
+              "maintenance cost error message not available"}
+          </p>
         )}
         <input
           {...register("color", { required: "color is require" })}
@@ -111,7 +149,10 @@ export default function VehicleSpecForm({ setShowSpecForm, vehicleId }) {
           placeholder="color"
         />
         {errors.color !== undefined && (
-          <p className="text-[#d9534f]">{errors?.color.message}</p>
+          <p className="text-[#d9534f]">
+            {(errors.color as FieldError)?.message ||
+              "maintenance cost error message not available"}
+          </p>
         )}
         <input
           {...register("features", { required: "features is require" })}
@@ -120,7 +161,10 @@ export default function VehicleSpecForm({ setShowSpecForm, vehicleId }) {
           placeholder="features"
         />
         {errors.features !== undefined && (
-          <p className="text-[#d9534f]">{errors?.features.message}</p>
+          <p className="text-[#d9534f]">
+            {(errors.features as FieldError)?.message ||
+              "features error message not available"}
+          </p>
         )}
         <button className="submit-btn ">add spec</button>
       </form>

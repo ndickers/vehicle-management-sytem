@@ -2,6 +2,8 @@ import db from "../drizzle/db";
 import { eq } from "drizzle-orm";
 import { TSUsers, TIUsers, users } from "../drizzle/schema";
 
+
+
 export async function serveUsers(): Promise<TSUsers[] | null> {
   return await db.query.users.findMany({
     with: {

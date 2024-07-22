@@ -1,8 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { vehicleApi } from "../features/api/vehiclesApi";
-
+import userLoginSlice from "../features/login/userLoginSlice";
+import adminLoginSlice from "../features/login/adminLoginSlice";
 export const store = configureStore({
   reducer: {
+    loginUser: userLoginSlice,
+    loginAdmin: adminLoginSlice,
     [vehicleApi.reducerPath]: vehicleApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>

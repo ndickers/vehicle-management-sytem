@@ -8,8 +8,11 @@ export default function ViewVehicles() {
   const [showBookForm, setShowBookForm] = useState({
     show: false,
     amount: null,
+    vehicleId: null,
   });
-  const { data: vehicles, isLoading, error, isError } = useGetVehiclesQuery();
+  const { data: vehicles, isLoading, error, isError } = useGetVehiclesQuery({});
+
+  
   if (isError) {
     console.log(error);
     return <h1>An error has occured</h1>;
@@ -17,7 +20,12 @@ export default function ViewVehicles() {
   if (isLoading) {
     return <h1>Loading...</h1>;
   }
-  const displayVehicles = vehicles.data.map((vehicle) => (
+  console.log(vehicles);
+  if (!vehicles || !vehicles.data) {
+    return <h1>No vehicles found</h1>;
+  }
+
+  const displayVehicles = vehicles.data.map((vehicle:any) => (
     <Car
       id={vehicle.id}
       {...vehicle}
@@ -26,6 +34,7 @@ export default function ViewVehicles() {
           ...prevData,
           show: true,
           amount: vehicle.rentRate,
+          vehicleId: vehicle.id,
         }))
       }
     />
@@ -38,7 +47,7 @@ export default function ViewVehicles() {
       </div>
       {showBookForm.show && (
         <BookingForm
-          amount={showBookForm.amount}
+          showBookForm={showBookForm}
           setShowBookForm={setShowBookForm}
         />
       )}

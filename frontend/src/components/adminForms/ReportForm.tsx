@@ -1,6 +1,11 @@
-import { useForm } from "react-hook-form";
+import { useForm,FieldError } from "react-hook-form";
 
-export default function ReportForm({ setShowReportForm }) {
+
+interface ReportFormProps {
+  setShowReportForm: (show: boolean) => void;
+}
+
+export default function ReportForm({ setShowReportForm }: ReportFormProps) {
   const {
     register,
     handleSubmit,
@@ -19,7 +24,9 @@ export default function ReportForm({ setShowReportForm }) {
     >
       <h1 className="text-center text-2xl font-bold mb-6">update report</h1>
       <form
-        onSubmit={handleSubmit((data) => console.log(data))}
+        onSubmit={handleSubmit((data) => {
+          console.log(data);
+        })}
         action=""
         className="mb-8 m-auto flex flex-col max-w-[25rem]"
       >
@@ -30,7 +37,8 @@ export default function ReportForm({ setShowReportForm }) {
           placeholder="subject"
         />
         {errors.subject !== undefined && (
-          <p className="text-[#d9534f]">{errors?.subject.message}</p>
+          <p className="text-[#d9534f]">{(errors.subject as FieldError)?.message ||
+            "Status error message not available"}</p>
         )}
 
         <select
@@ -48,11 +56,16 @@ export default function ReportForm({ setShowReportForm }) {
           placeholder="description"
         />
         {errors.description !== undefined && (
-          <p className="text-[#d9534f]">{errors.description.message}</p>
+          <p className="text-[#d9534f]">{(errors.description as FieldError)?.message ||
+            "description error message not available"}</p>
         )}
 
         {errors.status !== undefined && (
-          <p className="text-[#d9534f]">{errors.status.message}</p>
+          <p className="text-[#d9534f]">
+            {" "}
+            {(errors.status as FieldError)?.message ||
+              "Status error message not available"}
+          </p>
         )}
         <button className="submit-btn ">update report</button>
       </form>

@@ -7,7 +7,7 @@ export default function LandingPage() {
       <section className="p-24 text-white h-[100vh]" id="home">
         <div className="max-w-[1000px] mx-auto">
           <header className="flex justify-between items-center">
-            <img src={logo} alt="" srcset="" />
+            <img src={logo} alt="" />
             <div className="w-[55%] justify-between flex items-center">
               <nav>
                 <ul className="list-none flex items-center gap-5">
@@ -32,14 +32,12 @@ export default function LandingPage() {
                 <Link
                   to={"/login/user"}
                   className=" btns border-2 border-white  hover:text-black hover:bg-white"
-                  href="http://"
                 >
                   Login
                 </Link>
                 <Link
                   to={"/register"}
                   className="btns py-3 bg-white text-black hover:bg-transparent hover:border-2 hover:text-white hover:border-white"
-                  href="http://"
                 >
                   Register
                 </Link>
@@ -64,7 +62,7 @@ export default function LandingPage() {
                 and your ticket to exploration.
               </p>
             </div>
-            <img src={unDrawImg} alt="" srcset="" />
+            <img src={unDrawImg} alt="" />
           </div>
         </div>
       </section>

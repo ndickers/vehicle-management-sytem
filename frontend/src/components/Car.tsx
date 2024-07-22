@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Car(props) {
+export default function Car(props: any) {
   const [showSpec, setShowSpec] = useState(false);
 
   const date = new Date(props.createdAt);

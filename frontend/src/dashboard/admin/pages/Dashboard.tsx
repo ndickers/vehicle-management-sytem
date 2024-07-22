@@ -1,16 +1,20 @@
 import { Link, Outlet } from "react-router-dom";
 import logo from "../../../assets/logo.svg";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../app/store";
 
 export default function Dashboard() {
+  const adminInfo = useSelector((state: RootState) => state.loginAdmin);
+
   return (
     <div className="w-[80%]  mx-auto flex items-start text-white">
       <div className="bg-black  w-[15rem] h-[100vh] text-center">
         <div>
-          <img className="mx-auto my-8" src={logo} alt="" srcset="" />
+          <img className="mx-auto my-8" src={logo} alt="" />
         </div>
         <h1 className="my-12 text-3xl font-semibold">Dashboard</h1>
 
-        <ul classname="flex flex-col font-medium  ">
+        <ul className="flex flex-col font-medium  ">
           <li className="my-3 ">
             <Link
               to={"/dashboard/admin"}
@@ -57,7 +61,7 @@ export default function Dashboard() {
         <div className="flex bg-black p-6 rounded-[1.5rem] justify-between items-center">
           <h2>Admin</h2>
           <div className="flex items-center gap-4">
-            <p>username</p>
+            <p>{adminInfo.user.fullname}</p>
             <div className="h-8 w-8 rounded-full bg-slate-200"></div>
           </div>
         </div>

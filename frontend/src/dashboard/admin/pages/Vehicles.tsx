@@ -6,7 +6,7 @@ export default function Vehicles() {
   const [showVehicleForm, setShowVehicleForm] = useState(false);
   const [showSpecForm, setShowSpecForm] = useState(false);
   const [vehicleId, setVehicleId] = useState(null);
-  const { data: vehicles, isLoading, error, isError } = useGetVehiclesQuery();
+  const { data: vehicles, isLoading, error, isError } = useGetVehiclesQuery({});
 
   if (isError) {
     console.log(error);

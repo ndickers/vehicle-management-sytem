@@ -6,11 +6,11 @@ export default function Dashboard() {
     <div className="w-[80%] mx-auto flex items-start text-white">
       <div className="bg-black sticky top-0  w-[15rem] h-[100vh] text-center">
         <div>
-          <img className="mx-auto my-8" src={logo} alt="" srcset="" />
+          <img className="mx-auto my-8" src={logo} alt="" />
         </div>
         <h1 className="my-12 text-3xl font-semibold">Dashboard</h1>
 
-        <ul classname="flex flex-col font-medium  ">
+        <ul className="flex flex-col font-medium  ">
           <li className="my-3 ">
             <Link
               to={"/dashboard/user"}

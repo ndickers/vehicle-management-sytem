@@ -14,6 +14,8 @@ import Fleets from "./dashboard/admin/pages/Fleets";
 import Reports from "./dashboard/admin/pages/Reports";
 import Contact from "./dashboard/user/pages/Contact";
 import ManageSupport from "./dashboard/user/pages/ManageSupport";
+import SuccessPayment from "./dashboard/user/pages/SuccessPayment";
+import FailedPayment from "./dashboard/user/pages/FailedPayment";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -42,6 +44,8 @@ const router = createBrowserRouter([
       { path: "booked-vehicles", element: <BookedVehicle /> },
       { path: "contact-support", element: <Contact /> },
       { path: "manage-support", element: <ManageSupport /> },
+      { path: "success", element: <SuccessPayment /> },
+      { path: "cancel", element: <FailedPayment /> },
     ],
   },
 ]);

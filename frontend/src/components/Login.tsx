@@ -88,7 +88,7 @@ export default function Login({ title }: LoginProps) {
           {errors.email !== undefined && (
             <p className="text-[#d9534f]">
               {(errors.email as FieldError)?.message ||
-                "maintenance cost error message not available"}
+                "Status error message not available"}
             </p>
           )}
           <input
@@ -100,19 +100,37 @@ export default function Login({ title }: LoginProps) {
           {errors.password !== undefined && (
             <p className="text-[#d9534f]">
               {(errors.password as FieldError)?.message ||
-                "maintenance cost error message not available"}
+                "Status error message not available"}
             </p>
           )}
           <button className="bg-black opacity-70 p-3 rounded-lg text-white text-lg font-semibold">
             Login
           </button>
         </form>
+
         {title === "User" && (
           <Link
             to={"/register"}
             className="text-white text-center block hover:text-[#CAC326] underline"
           >
             register here
+          </Link>
+        )}
+
+        {title === "User" && (
+          <Link
+            to={"/login/admin"}
+            className="text-white mt-4 text-center block hover:text-[#CAC326] underline"
+          >
+            admin
+          </Link>
+        )}
+        {title === "Admin" && (
+          <Link
+            to={"/login/user"}
+            className="text-white mt-4 text-center block hover:text-[#CAC326] underline"
+          >
+            user
           </Link>
         )}
       </div>

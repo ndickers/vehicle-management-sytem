@@ -1,10 +1,21 @@
 import { useState } from "react";
 import VehiclesForm from "../../../components/adminForms/VehiclesForm";
 import VehicleSpecForm from "../../../components/adminForms/VehicleSpecForm";
-import { useGetVehiclesQuery } from "../../../features/api/vehiclesApi";
+import {
+  useGetVehiclesQuery,
+  useDeleteVehicleMutation,
+} from "../../../features/api/vehiclesApi";
 export default function Vehicles() {
-  const [showVehicleForm, setShowVehicleForm] = useState(false);
+  const [showVehicleForm, setShowVehicleForm] = useState({
+    vehicle: null,
+    show: false,
+  });
   const [showSpecForm, setShowSpecForm] = useState(false);
+  const [update, setUpdate] = useState(false);
+  const [
+    deleteVehicle,
+    { isError: deleteIsError, isLoading: deleteIsLoading, error: deleteError },
+  ] = useDeleteVehicleMutation();
   const [vehicleId, setVehicleId] = useState(null);
   const { data: vehicles, isLoading, error, isError } = useGetVehiclesQuery({});
 
@@ -29,7 +40,7 @@ export default function Vehicles() {
           <button
             onClick={() => {
               setShowSpecForm(true);
-              setVehicleId(vehicle.id)
+              setVehicleId(vehicle.id);
             }}
             className="text-xs rounded-md bg-black px-1 text-white py-1"
           >
@@ -37,10 +48,26 @@ export default function Vehicles() {
           </button>
         </td>
         <td className="vehicle-td-style ">
-          <button className="mx-2 text-xs rounded-md bg-black px-1 text-white py-1">
+          <button
+            onClick={() => {
+              setShowVehicleForm({ vehicle, show: true });
+              setUpdate(true);
+            }}
+            className="mx-2 text-xs rounded-md bg-black px-1 text-white py-1"
+          >
             edit
           </button>
-          <button className="mx-2 text-xs rounded-md bg-black px-1 text-white py-1">
+          <button
+            onClick={async () => {
+              try {
+                const result = await deleteVehicle(vehicle.id);
+                console.log(result);
+              } catch (error) {
+                console.log(error);
+              }
+            }}
+            className="mx-2 text-xs rounded-md bg-black px-1 text-white py-1"
+          >
             delete
           </button>
         </td>
@@ -48,6 +75,13 @@ export default function Vehicles() {
     );
   });
   console.log(vehicles);
+  if (deleteIsLoading) {
+    return <h1>deleting vehicle....</h1>;
+  }
+  if (deleteIsError) {
+    console.log(deleteError);
+    return <h1>server error, unable to delete vehicle</h1>;
+  }
 
   return (
     <div>
@@ -56,13 +90,13 @@ export default function Vehicles() {
           <h1 className="text-2xl font-semibold my-8">Manage vehicles</h1>
           <button
             className="bg-[#467FD0] px-3 py-2 rounded-xl"
-            onClick={() => setShowVehicleForm(true)}
+            onClick={() => setShowVehicleForm({ vehicle: null, show: true })}
           >
             Add vehicle
           </button>
         </div>
 
-        <div className="bg-white max-h-[100vh] overflow-x-auto text-black">
+        <div className="text-black h-[60vh] overflow-scroll">
           <table className="table-auto  text-center border border-black bg-slate-300">
             <tr className="border border-black bg-slate-400">
               <th className="vehicle-td-style">id</th>
@@ -88,8 +122,12 @@ export default function Vehicles() {
           </table>
         </div>
       </div>
-      {showVehicleForm && (
-        <VehiclesForm setShowVehicleForm={setShowVehicleForm} />
+      {showVehicleForm.show && (
+        <VehiclesForm
+          vehicle={showVehicleForm.vehicle}
+          update={update}
+          setShowVehicleForm={setShowVehicleForm}
+        />
       )}
       {showSpecForm && (
         <VehicleSpecForm

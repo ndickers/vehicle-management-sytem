@@ -18,20 +18,26 @@ export default function ManageSupport() {
   const [updateForm, setUpdateForm] = useState({ id: null, show: false });
 
   let displayReports = undefined;
+
+  if (isLoading) {
+    displayReports = <h1>fetching reports...</h1>;
+  }
   if (isError) {
     console.log(error);
     displayReports = <h1>Server error, can't get reports</h1>;
   }
-  if (isLoading) {
-    displayReports = <h1>fetching reports...</h1>;
-  } else {
+
+  if (reports !== undefined) {
     if (reports.length === 0) {
       displayReports = <h1>No report submitted</h1>;
     }
     displayReports = reports.map((report: any) => (
       <ContactReport setUpdateForm={setUpdateForm} id={report.id} {...report} />
     ));
+  } else {
+    displayReports = <h1>you haven't report anything yet</h1>;
   }
+
   console.log(updateForm);
 
   return (

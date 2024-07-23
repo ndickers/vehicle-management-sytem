@@ -1,12 +1,13 @@
-import { useForm ,FieldError} from "react-hook-form";
+import { useForm, FieldError } from "react-hook-form";
 import {
-  useCreateUserMutation,
+  useRegisterUserMutation,
   useUpdateUserMutation,
 } from "../../features/api/vehiclesApi";
 import { useEffect } from "react";
 
 export default function UsersForm({ setShowUserForm, userDetail, update }) {
-  const [createUser, { isError, error, isLoading }] = useCreateUserMutation();
+  const [registerUser, { isError, error, isLoading }] =
+    useRegisterUserMutation();
   const [
     updateUser,
     { isError: updateIsError, error: updateError, isLoading: updateIsLoading },
@@ -32,12 +33,11 @@ export default function UsersForm({ setShowUserForm, userDetail, update }) {
     }
   }, [reset, update, userDetail]);
 
-
   async function handleCreateUser(data) {
     if (userDetail === null) {
       const userDetails = { ...data, password: "1234" };
       try {
-        const result = await createUser(userDetails);
+        const result = await registerUser(userDetails);
         console.log(result);
       } catch (error) {
         console.log(error);
@@ -69,9 +69,6 @@ export default function UsersForm({ setShowUserForm, userDetail, update }) {
     return <h1>Server error, unable to update user</h1>;
   }
 
-  
-
- 
   return (
     <div
       onClick={(e) => {
@@ -96,8 +93,10 @@ export default function UsersForm({ setShowUserForm, userDetail, update }) {
           placeholder="username"
         />
         {errors.username !== undefined && (
-          <p className="text-[#d9534f]">{(errors.username as FieldError)?.message ||
-            "username error message not available"}</p>
+          <p className="text-[#d9534f]">
+            {(errors.username as FieldError)?.message ||
+              "username error message not available"}
+          </p>
         )}
         <input
           {...register("email", { required: "email is required" })}
@@ -106,8 +105,10 @@ export default function UsersForm({ setShowUserForm, userDetail, update }) {
           placeholder="email"
         />
         {errors.email !== undefined && (
-          <p className="text-[#d9534f]">{(errors.email as FieldError)?.message ||
-            "email error message not available"}</p>
+          <p className="text-[#d9534f]">
+            {(errors.email as FieldError)?.message ||
+              "email error message not available"}
+          </p>
         )}
         <input
           {...register("phone", { required: "phone is required" })}
@@ -116,8 +117,10 @@ export default function UsersForm({ setShowUserForm, userDetail, update }) {
           placeholder="phone"
         />
         {errors.phone !== undefined && (
-          <p className="text-[#d9534f]">{(errors.phone as FieldError)?.message ||
-            "phone error message not available"}</p>
+          <p className="text-[#d9534f]">
+            {(errors.phone as FieldError)?.message ||
+              "phone error message not available"}
+          </p>
         )}
         <input
           {...register("address", { required: "address is required" })}
@@ -126,8 +129,10 @@ export default function UsersForm({ setShowUserForm, userDetail, update }) {
           placeholder="address"
         />
         {errors.address !== undefined && (
-          <p className="text-[#d9534f]">{(errors.address as FieldError)?.message ||
-            "address error message not available"}</p>
+          <p className="text-[#d9534f]">
+            {(errors.address as FieldError)?.message ||
+              "address error message not available"}
+          </p>
         )}
         <select
           {...register("role", { required: "role is required" })}
@@ -138,8 +143,10 @@ export default function UsersForm({ setShowUserForm, userDetail, update }) {
           <option value="admin">admin</option>
         </select>
         {errors.role !== undefined && (
-          <p className="text-[#d9534f]">{(errors.role as FieldError)?.message ||
-            "role error message not available"}</p>
+          <p className="text-[#d9534f]">
+            {(errors.role as FieldError)?.message ||
+              "role error message not available"}
+          </p>
         )}
         <button className="submit-btn ">
           {update ? "update user" : "create user"}

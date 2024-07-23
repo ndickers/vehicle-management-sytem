@@ -7,10 +7,11 @@ import {
 import { loadStripe } from "@stripe/stripe-js";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../app/store";
+import { useState } from "react";
 
 export default function BookedVehicle() {
   const userInfo = useSelector((state: RootState) => state.loginUser);
-  console.log({ userInfoIs: userInfo.user.id });
+  const [successBookings, setSuccessBookings] = useState(false);
 
   const {
     data: userBookedVehicle,
@@ -36,12 +37,15 @@ export default function BookedVehicle() {
     bookList = <p className="">Server error, can't get booked vehicle</p>;
   } else if (userBookedVehicle && userBookedVehicle[0].bookings.length !== 0) {
     const { bookings } = userBookedVehicle[0];
-    console.log(bookings);
+
     const unpaidbookings = bookings.filter(
       (book) => book.bookingStatus === "unpaid"
     );
+    const paidbookings = bookings.filter(
+      (book) => book.bookingStatus === "paid"
+    );
 
-    bookList = unpaidbookings.map((book) => (
+    bookList = (successBookings ? paidbookings : unpaidbookings).map((book) => (
       <BookedCar key={book.id} {...book} />
     ));
   } else {
@@ -75,13 +79,28 @@ export default function BookedVehicle() {
   return (
     <div className="px-16 pt-12 w-full">
       <DashHeader title="booked vehicle" />
-      <div className="w-[100%] flex justify-end items-center my-3">
-        <form onSubmit={handleCheckoutSubmit}>
-          <button className="  bg-[#467FD0] text-sm font-bold p-2 rounded-lg">
-            Proceed to payment
-          </button>
-        </form>
+      <div className="w-[100%] flex justify-between items-center my-3">
+        <button
+          className="underline text-[#467FD0] ml-4 font-semibold my-2 "
+          onClick={() => setSuccessBookings((prevState) => !prevState)}
+        >
+          {successBookings ? "unpaid bookings" : "paid booking"}
+        </button>
+        {!successBookings && (
+          <form onSubmit={handleCheckoutSubmit}>
+            <button className="  bg-[#467FD0] text-sm font-bold p-2 rounded-lg">
+              Proceed to payment
+            </button>
+          </form>
+        )}
       </div>
+      <h1
+        className={`text-xl font-semibold text-center ${
+          successBookings ? "text-[#5cb85c]" : "text-[#f0ad4e]"
+        }`}
+      >
+        {successBookings ? "successfull bookings" : "pending bookings"}
+      </h1>
       <div className="h-[100vh] mt-8 rounded-3xl bg-black">{bookList}</div>
     </div>
   );

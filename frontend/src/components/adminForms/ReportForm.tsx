@@ -1,32 +1,71 @@
-import { useForm,FieldError } from "react-hook-form";
+import { useForm, FieldError } from "react-hook-form";
+import { useEffect } from "react";
+import { useUpdateReportMutation } from "../../features/api/vehiclesApi";
 
+import { Dispatch, SetStateAction } from "react";
 
 interface ReportFormProps {
-  setShowReportForm: (show: boolean) => void;
+  setShowReportForm: Dispatch<SetStateAction<{ report: any; show: boolean }>>;
+  report: any;
 }
-
-export default function ReportForm({ setShowReportForm }: ReportFormProps) {
+export default function ReportForm({
+  setShowReportForm,
+  report,
+}: ReportFormProps) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
-  console.log(errors);
+
+  const [updateReport, { isError, isLoading, error }] =
+    useUpdateReportMutation();
+  useEffect(() => {
+    if (report !== null) {
+      reset({
+        userId: report?.user?.id,
+        id: report.id,
+        subject: report.subject,
+        description: report.description,
+      });
+    }
+  }, [report, reset]);
+
+  async function handleUpdateReport(data) {
+    console.log(data);
+
+    try {
+      const result = await updateReport({
+        report: data,
+        id: report.id,
+      }).unwrap();
+      reset();
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  if (isLoading) {
+    return <h1>updating report...</h1>;
+  }
+  if (isError) {
+    console.log(error);
+    return <h1>server error, unable to update report</h1>;
+  }
 
   return (
     <div
       onClick={(e) => {
         if (e.target === e.currentTarget) {
-          setShowReportForm(false);
+          setShowReportForm({ report: null, show: false });
         }
       }}
       className="bg-black opacity-80 z-10 h-[100%] w-[100%] top-0 left-0  absolute pt-8"
     >
       <h1 className="text-center text-2xl font-bold mb-6">update report</h1>
       <form
-        onSubmit={handleSubmit((data) => {
-          console.log(data);
-        })}
+        onSubmit={handleSubmit(handleUpdateReport)}
         action=""
         className="mb-8 m-auto flex flex-col max-w-[25rem]"
       >
@@ -37,8 +76,10 @@ export default function ReportForm({ setShowReportForm }: ReportFormProps) {
           placeholder="subject"
         />
         {errors.subject !== undefined && (
-          <p className="text-[#d9534f]">{(errors.subject as FieldError)?.message ||
-            "Status error message not available"}</p>
+          <p className="text-[#d9534f]">
+            {(errors.subject as FieldError)?.message ||
+              "Status error message not available"}
+          </p>
         )}
 
         <select
@@ -49,15 +90,16 @@ export default function ReportForm({ setShowReportForm }: ReportFormProps) {
           <option value="pending">pending</option>
           <option value="resolved">resolved</option>
         </select>
-        <input
+        <textarea
           {...register("description", { required: "description is required" })}
-          className="update-form bg-white"
-          type="textarea"
+          className="update-form h-[8rem] bg-white"
           placeholder="description"
         />
         {errors.description !== undefined && (
-          <p className="text-[#d9534f]">{(errors.description as FieldError)?.message ||
-            "description error message not available"}</p>
+          <p className="text-[#d9534f]">
+            {(errors.description as FieldError)?.message ||
+              "description error message not available"}
+          </p>
         )}
 
         {errors.status !== undefined && (

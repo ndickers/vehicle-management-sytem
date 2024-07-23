@@ -43,7 +43,18 @@ const initialState: AdminLoginState = {
 const adminLoginSlice = createSlice({
   name: "loginAdmin",
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      state.user = null;
+      state.token = null;
+      state.role = null;
+      state.loading = true;
+      state.error = null;
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      localStorage.removeItem("role");
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(adminLogin.pending, (state) => {
@@ -69,5 +80,5 @@ const adminLoginSlice = createSlice({
       });
   },
 });
-
+export const { logout } = adminLoginSlice.actions;
 export default adminLoginSlice.reducer;

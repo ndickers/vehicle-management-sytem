@@ -1,51 +1,119 @@
 import { useForm } from "react-hook-form";
-import { useCreateVehicleMutation } from "../../features/api/vehiclesApi";
+import {
+  useCreateVehicleMutation,
+  useUpdateVehicleMutation,
+} from "../../features/api/vehiclesApi";
 import axios from "axios";
-
-export default function VehiclesForm({ setShowVehicleForm }) {
+import { useEffect } from "react";
+export default function VehiclesForm({ setShowVehicleForm, vehicle, update }) {
   const { register, handleSubmit, reset } = useForm();
-  const [createVehicle, { isLoading }] = useCreateVehicleMutation();
+  const [createVehicle, { isLoading, isError, error }] =
+    useCreateVehicleMutation();
+  const [updateVehicle, { isLoading:updateIsLoading, isError:updateIsError, error:updateError }] =
+    useUpdateVehicleMutation();
+  useEffect(() => {
+    if (vehicle !== null) {
+      reset(vehicle);
+    }
+  }, [vehicle, reset]);
 
   async function submitVehicle(data) {
     const image = data.file[0];
 
-    const formData = new FormData();
-    formData.append("file", image);
-    formData.append("upload_preset", import.meta.env.VITE_PRESET_KEY);
+    // update vehicles
+    if (update) {
+      if (image) {
+        const formData = new FormData();
+        formData.append("file", image);
+        formData.append("upload_preset", import.meta.env.VITE_PRESET_KEY);
+        try {
+          const { data: imageUrl } = await axios.post(
+            "https://api.cloudinary.com/v1_1/du9vpm7jj/image/upload",
+            formData
+          );
+          // implement post logic here
+          const vehicleDetails = {
+            image: imageUrl.url,
+            availability: data.availability,
+            rentRate: Number(data.rentRate),
+          };
+          const result = await updateVehicle({
+            vehicle: vehicleDetails,
+            id: vehicle.id,
+          }).unwrap();
+          reset();
+          console.log(result);
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        const vehicleDetails = {
+          availability: data.availability,
+          rentRate: Number(data.rentRate),
+        };
+        const result = await updateVehicle({
+          vehicle: vehicleDetails,
+          id: vehicle.id,
+        }).unwrap();
+        reset();
+        console.log(result);
+        console.log(false);
+      }
+    }
 
-    try {
-      const { data: imageUrl } = await axios.post(
-        "https://api.cloudinary.com/v1_1/du9vpm7jj/image/upload",
-        formData
-      );
-      // implement post logic here
-      const vehicleDetails = {
-        image: imageUrl.url,
-        availability: data.availability,
-        rentRate: Number(data.rentRate),
-      };
-      const result = await createVehicle(vehicleDetails).unwrap();
-      reset();
-      console.log(result);
-    } catch (error) {
-      console.log(error);
+    if (image) {
+      const formData = new FormData();
+      formData.append("file", image);
+      formData.append("upload_preset", import.meta.env.VITE_PRESET_KEY);
+
+      try {
+        const { data: imageUrl } = await axios.post(
+          "https://api.cloudinary.com/v1_1/du9vpm7jj/image/upload",
+          formData
+        );
+        // implement post logic here
+        const vehicleDetails = {
+          image: imageUrl.url,
+          availability: data.availability,
+          rentRate: Number(data.rentRate),
+        };
+        const result = await createVehicle(vehicleDetails).unwrap();
+        reset();
+        console.log(result);
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <h1>creating vehicle....</h1>;
+  }
+  if (isError) {
+    console.log(error);
+    return <h1>Server error, unable to create vehicle</h1>;
+  }
+  if (updateIsLoading) {
+    return <h1>updating vehicle....</h1>;
+  }
+  if (updateIsError) {
+    console.log(updateError);
+
+    return <h1>Server error, unable to update vehicle</h1>;
   }
 
   return (
     <div
       onClick={(e) => {
         if (e.target === e.currentTarget) {
-          setShowVehicleForm(false);
+          setShowVehicleForm((prevData) => ({ ...prevData, show: false }));
         }
       }}
       className="bg-black opacity-80 z-10 h-[100%] w-[100%] top-0 left-0  absolute p-32"
     >
-      <h1 className="text-center text-2xl font-bold mb-6">Add vehicle</h1>
+      <h1 className="text-center text-2xl font-bold mb-6">
+        {update ? "update vehicle" : "Add vehicle"}
+      </h1>
       <form
         onSubmit={handleSubmit(submitVehicle)}
         action=""
@@ -72,7 +140,9 @@ export default function VehiclesForm({ setShowVehicleForm }) {
             placeholder="availability"
           />
         </label>
-        <button className="submit-btn ">post vehicle</button>
+        <button className="submit-btn ">
+          {update ? "update vehicle" : "post vehicle"}
+        </button>
       </form>
     </div>
   );

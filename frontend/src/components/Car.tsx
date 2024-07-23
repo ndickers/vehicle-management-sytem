@@ -27,7 +27,7 @@ export default function Car(props: any) {
           <span className="font-semibold">Rent rate:</span>{" "}
           {`$${props?.rentRate} per hr`}
         </p>
-        {!showSpec && (
+        {props.vehicle_specification !== null && !showSpec && (
           <button
             onClick={() => setShowSpec(true)}
             className="mt-2 underline text-[#467FD0]"
@@ -98,3 +98,5 @@ export default function Car(props: any) {
     </div>
   );
 }
+
+

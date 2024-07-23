@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const addingHeader = (headers:any) => {
+const addingHeader = (headers: any) => {
   const adminToken = localStorage.getItem("adminToken");
   const userToken = localStorage.getItem("authToken");
   const role = localStorage.getItem("role");
@@ -38,6 +38,9 @@ export const vehicleApi = createApi({
     getReports: builder.query({
       query: (id) => `/customer-support/${id}`,
     }),
+    getAllReports: builder.query({
+      query: () => `/customer-support`,
+    }),
     createVehicle: builder.mutation({
       query: (vehicle) => ({
         url: "/vehicles",
@@ -71,6 +74,14 @@ export const vehicleApi = createApi({
         url: "/location",
         method: "POST",
         body: location,
+      }),
+    }),
+
+    registerUser: builder.mutation({
+      query: (userDetails) => ({
+        url: "/register",
+        method: "POST",
+        body: userDetails,
       }),
     }),
     createReport: builder.mutation({
@@ -108,6 +119,13 @@ export const vehicleApi = createApi({
         body: location,
       }),
     }),
+    updateVehicle: builder.mutation({
+      query: ({ vehicle, id }) => ({
+        url: `/vehicles/${id}`,
+        method: "PUT",
+        body: vehicle,
+      }),
+    }),
     deleteFleet: builder.mutation({
       query: (id) => ({
         url: `/fleet-management/${id}`,
@@ -142,6 +160,12 @@ export const vehicleApi = createApi({
         method: "DELETE",
       }),
     }),
+    deleteVehicle: builder.mutation({
+      query: (id) => ({
+        url: `/vehicles/${id}`,
+        method: "DELETE",
+      }),
+    }),
     createCheckout: builder.mutation({
       query: (bookingList) => ({
         url: "/checkout",
@@ -153,6 +177,10 @@ export const vehicleApi = createApi({
 });
 
 export const {
+  useGetAllReportsQuery,
+  useDeleteVehicleMutation,
+  useUpdateVehicleMutation,
+  useRegisterUserMutation,
   useDeleteFleetMutation,
   useGetFleetQuery,
   useUpdateFleetMutation,

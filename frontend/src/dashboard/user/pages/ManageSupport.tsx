@@ -1,5 +1,4 @@
 import DashHeader from "./DashHeader";
-
 import { useGetReportsQuery } from "../../../features/api/vehiclesApi";
 import { useSelector } from "react-redux";
 import ContactReport from "../../../components/ContactReport";
@@ -43,7 +42,12 @@ export default function ManageSupport() {
   return (
     <div className="px-16  pt-12 w-full">
       <DashHeader title="Manage support" />
-      <div className="bg-black mt-8 rounded-2xl">{displayReports}</div>
+      <div className="text-black h-[80%] overflow-scroll">
+        <div className="bg-black mt-8 rounded-2xl  h-[60vh]">
+          {displayReports}
+        </div>
+      </div>
+
       {updateForm.show && (
         <CustomerReportForm
           reportId={updateForm.id || "default-id"}

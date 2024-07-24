@@ -100,7 +100,7 @@ export default function Users() {
               <tr>
                 <td>Loading...</td>
               </tr>
-            ) : users.length === 0 ? (
+            ) : users !== undefined && users.length === 0 ? (
               <tr>
                 <td>No data</td>
               </tr>

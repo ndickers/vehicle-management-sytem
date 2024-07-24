@@ -46,8 +46,8 @@ const router = createBrowserRouter([
       { path: "manage-support", element: <ManageSupport /> },
     ],
   },
-  { path: "success", element: <SuccessPayment /> },
-  { path: "cancel", element: <FailedPayment /> },
+  { path: "/success", element: <SuccessPayment /> },
+  { path: "/cancel", element: <FailedPayment /> },
 ]);
 
 function App() {

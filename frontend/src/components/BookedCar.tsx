@@ -1,7 +1,7 @@
 import editIcon from "../assets/edit.svg";
 import deleteIcon from "../assets/delete.svg";
 
-export default function BookedCar(props:any) {
+export default function BookedCar(props: any) {
   const date = new Date(props.createdAt);
 
   const localDate = date.toLocaleDateString();
@@ -13,7 +13,9 @@ export default function BookedCar(props:any) {
         <div className="flex-1">
           <p className=" text-[#cdcccc]">
             <span className="font-semibold text-white">model:</span>
-            {props.vehicles.vehicle_specification.model}
+            {props.vehicles.vehicle_specification === null
+              ? "not specified"
+              : props.vehicles.vehicle_specification.model}
           </p>
 
           <p className="mt-1  text-[#cdcccc]">
@@ -43,7 +45,7 @@ export default function BookedCar(props:any) {
                 <img src={editIcon} alt="" />
               </button>
               <button className="w-8 border-white border rounded-lg">
-                <img className="w-full" src={deleteIcon} alt=""  />
+                <img className="w-full" src={deleteIcon} alt="" />
               </button>
             </div>
             <div className="mt-[1.1rem] text-[#467FD0]">

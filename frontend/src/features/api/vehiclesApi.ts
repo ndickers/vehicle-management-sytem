@@ -19,27 +19,35 @@ export const vehicleApi = createApi({
     baseUrl: "https://vehicle-management-sytem.onrender.com",
     prepareHeaders: addingHeader,
   }),
+  tagTypes: ["Vehicle", "Location", "Fleet", "User", "Report", "Booking"],
   endpoints: (builder) => ({
     getVehicles: builder.query({
       query: () => "/vehicles",
+      providesTags: ["Vehicle"],
     }),
     getLocation: builder.query({
       query: () => "/location",
+      providesTags: ["Location"],
     }),
     getFleet: builder.query({
       query: () => "/fleet-management",
+      providesTags: ["Fleet"],
     }),
     getUsers: builder.query({
       query: () => `/users`,
+      providesTags: ["User"],
     }),
     getUser: builder.query({
       query: (id) => `/users/${id}`,
+      providesTags: [{ type: "User", id: "ID" }],
     }),
     getReports: builder.query({
       query: (id) => `/customer-support/${id}`,
+      providesTags: [{ type: "Report", id: "ID" }],
     }),
     getAllReports: builder.query({
       query: () => `/customer-support`,
+      providesTags: ["Report"],
     }),
     createVehicle: builder.mutation({
       query: (vehicle) => ({
@@ -47,6 +55,7 @@ export const vehicleApi = createApi({
         method: "POST",
         body: vehicle,
       }),
+      invalidatesTags: ["Vehicle"],
     }),
     createUser: builder.mutation({
       query: (user) => ({
@@ -54,6 +63,7 @@ export const vehicleApi = createApi({
         method: "POST",
         body: user,
       }),
+      invalidatesTags: ["User"],
     }),
     createVehicleSpec: builder.mutation({
       query: (vehicleSpec) => ({
@@ -61,6 +71,7 @@ export const vehicleApi = createApi({
         method: "POST",
         body: vehicleSpec,
       }),
+      invalidatesTags: ["Vehicle"],
     }),
     createBooking: builder.mutation({
       query: (bookings) => ({
@@ -68,6 +79,7 @@ export const vehicleApi = createApi({
         method: "POST",
         body: bookings,
       }),
+      invalidatesTags: ["Booking"],
     }),
     createLocation: builder.mutation({
       query: (location) => ({
@@ -75,6 +87,7 @@ export const vehicleApi = createApi({
         method: "POST",
         body: location,
       }),
+      invalidatesTags: ["Location"],
     }),
 
     registerUser: builder.mutation({
@@ -83,6 +96,7 @@ export const vehicleApi = createApi({
         method: "POST",
         body: userDetails,
       }),
+      invalidatesTags: ["User"],
     }),
     createReport: builder.mutation({
       query: (report) => ({
@@ -90,6 +104,7 @@ export const vehicleApi = createApi({
         method: "POST",
         body: report,
       }),
+      invalidatesTags: ["Report"],
     }),
     updateUser: builder.mutation({
       query: ({ user, id }) => ({
@@ -97,6 +112,7 @@ export const vehicleApi = createApi({
         method: "PUT",
         body: user,
       }),
+      invalidatesTags: [{ type: "User", id: "ID" }],
     }),
 
     deleteLocation: builder.mutation({
@@ -104,12 +120,14 @@ export const vehicleApi = createApi({
         url: `/location/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Location"],
     }),
     deleteUser: builder.mutation({
       query: (id) => ({
         url: `/users/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["User"],
     }),
 
     updateLocation: builder.mutation({
@@ -118,6 +136,7 @@ export const vehicleApi = createApi({
         method: "PUT",
         body: location,
       }),
+      invalidatesTags: [{ type: "Location", id: "ID" }],
     }),
     updateVehicle: builder.mutation({
       query: ({ vehicle, id }) => ({
@@ -125,12 +144,14 @@ export const vehicleApi = createApi({
         method: "PUT",
         body: vehicle,
       }),
+      invalidatesTags: [{ type: "Vehicle", id: "ID" }],
     }),
     deleteFleet: builder.mutation({
       query: (id) => ({
         url: `/fleet-management/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Fleet"],
     }),
     createFleet: builder.mutation({
       query: (fleet) => ({
@@ -138,6 +159,7 @@ export const vehicleApi = createApi({
         method: "POST",
         body: fleet,
       }),
+      invalidatesTags: ["Fleet"],
     }),
     updateFleet: builder.mutation({
       query: ({ fleet, id }) => ({
@@ -145,6 +167,7 @@ export const vehicleApi = createApi({
         method: "PUT",
         body: fleet,
       }),
+      invalidatesTags: [{ type: "Fleet", id: "ID" }],
     }),
 
     updateReport: builder.mutation({
@@ -153,18 +176,21 @@ export const vehicleApi = createApi({
         method: "PUT",
         body: report,
       }),
+      invalidatesTags: [{ type: "Report", id: "ID" }],
     }),
     deleteReport: builder.mutation({
       query: (id) => ({
         url: `/customer-support/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Report"],
     }),
     deleteVehicle: builder.mutation({
       query: (id) => ({
         url: `/vehicles/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Vehicle"],
     }),
     createCheckout: builder.mutation({
       query: (bookingList) => ({
@@ -172,6 +198,7 @@ export const vehicleApi = createApi({
         method: "POST",
         body: bookingList,
       }),
+      invalidatesTags: ["Booking"],
     }),
   }),
 });

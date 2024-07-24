@@ -78,7 +78,7 @@ export default function BookingForm({ setShowBookForm, showBookForm }: any) {
           setShowBookForm((prevData: any) => ({ ...prevData, show: false }));
         }
       }}
-      className="bg-black opacity-80 z-10 h-[100%] w-[100%] top-0 left-0  absolute p-8"
+      className="bg-black opacity-80 z-10 h-[100vh] w-[100%] top-0 left-0 absolute p-8"
     >
       <h1 className="text-center text-2xl font-bold mb-6">Book vehicle</h1>
       <form
@@ -92,7 +92,7 @@ export default function BookingForm({ setShowBookForm, showBookForm }: any) {
             validate: validateDate,
           })}
           onChange={(e) => {
-            const selectedDate:any = new Date(e.target.value);
+            const selectedDate: any = new Date(e.target.value);
             const currentDate: any = new Date();
             const differenceInHours: number =
               Math.abs(selectedDate - currentDate) / 3600000;

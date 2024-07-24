@@ -9,7 +9,7 @@ export default function BookedCar(props: any) {
 
   return (
     <div className="rounded-2xl">
-      <div className="bg-black px-6 py-2 pb-4 flex rounded-[inherit] justify-between items-start">
+      <div className="bg-black  px-6 py-2 pb-4 flex rounded-[inherit] justify-between items-start">
         <div className="flex-1">
           <p className=" text-[#cdcccc]">
             <span className="font-semibold text-white">model:</span>

@@ -5,7 +5,7 @@ import ContactReport from "../../../components/ContactReport";
 import CustomerReportForm from "../../../components/userForm/CustomerReportForm";
 import { useState } from "react";
 import { RootState } from "../../../app/store";
-
+import { BallTriangle } from "react-loader-spinner";
 export default function ManageSupport() {
   const userInfo = useSelector((state: RootState) => state.loginUser);
   const {
@@ -19,7 +19,20 @@ export default function ManageSupport() {
   let displayReports = undefined;
 
   if (isLoading) {
-    displayReports = <h1>fetching reports...</h1>;
+    return (
+      <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">
+        <BallTriangle
+          height={150}
+          width={150}
+          radius={9}
+          color="white"
+          ariaLabel="ball-triangle-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
+    );
   }
   if (isError) {
     console.log(error);

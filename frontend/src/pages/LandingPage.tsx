@@ -67,6 +67,41 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* <section>
+        <div>
+          <div>
+            <img src={logo} alt="" />
+            <p>254 car higher</p>
+          </div>
+          <div>
+            <p>discount</p>
+            <p>help</p>
+            <p>promocode</p>
+            <p>about us</p>
+            <p>home</p>
+          </div>
+        </div>
+        <div>
+          <div>
+            <div>
+              <div>
+                <img src={icon} alt="" srcset="" />
+                <p>0768665354</p>
+              </div>
+              <div>
+                <img src="" alt="" />
+                <img src="" alt="" />
+                <img src="" alt="" />
+              </div>
+            </div>
+          </div>
+          <div>
+            <img src="" alt="" />
+            bryondickers@gmail.com
+          </div>
+        </div>
+      </section> */}
+
       {/* add contact page */}
     </div>
   );

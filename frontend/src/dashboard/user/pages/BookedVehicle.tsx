@@ -8,11 +8,12 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../app/store";
 import { useState } from "react";
-
+import { BallTriangle } from "react-loader-spinner";
+import { useNavigate } from "react-router-dom";
 export default function BookedVehicle() {
   const userInfo = useSelector((state: RootState) => state.loginUser);
   const [successBookings, setSuccessBookings] = useState(false);
-
+  const navigate = useNavigate();
   const {
     data: userBookedVehicle,
     isError,
@@ -30,9 +31,8 @@ export default function BookedVehicle() {
   ] = useCreateCheckoutMutation();
 
   let bookList: JSX.Element | null = null;
-  if (isLoading) {
-    bookList = <p>loading...</p>;
-  } else if (isError) {
+
+  if (isError) {
     console.log(error);
     bookList = <p className="">Server error, can't get booked vehicle</p>;
   } else if (userBookedVehicle && userBookedVehicle[0].bookings.length !== 0) {
@@ -66,7 +66,11 @@ export default function BookedVehicle() {
     const { sessionId } = await createCheckout(unpaidbookings).unwrap();
 
     const result = await stripe.redirectToCheckout({ sessionId });
-    console.log(result);
+    if (result.error) {
+      navigate("/dashboard/user/cancel");
+    } else {
+      navigate("/dashboard/user/success");
+    }
   }
   if (checkoutIsLoading) {
     return <h1>processing payment...</h1>;
@@ -75,7 +79,20 @@ export default function BookedVehicle() {
     console.log(checkoutError);
     return <h1>Server error, unable to process payment</h1>;
   }
-
+  if (isLoading) {
+    <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">
+      <BallTriangle
+        height={150}
+        width={150}
+        radius={9}
+        color="white"
+        ariaLabel="ball-triangle-loading"
+        wrapperStyle={{}}
+        wrapperClass=""
+        visible={true}
+      />
+    </div>;
+  }
   return (
     <div className="px-16 pt-12 w-full">
       <DashHeader title="booked vehicle" />

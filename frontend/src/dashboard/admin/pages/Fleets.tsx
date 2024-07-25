@@ -2,6 +2,7 @@ import FleetForm from "../../../components/adminForms/FleetForm";
 import { useState } from "react";
 import { useGetFleetQuery } from "../../../features/api/vehiclesApi";
 import { useDeleteFleetMutation } from "../../../features/api/vehiclesApi";
+import { BallTriangle } from 'react-loader-spinner';
 export default function Users() {
   const [showFleetForm, setShowFleetForm] = useState({
     fleet: null,
@@ -13,7 +14,20 @@ export default function Users() {
   const [deleteFleet] = useDeleteFleetMutation();
 
   if (isLoading) {
-    return <h1>Fetching fleet....</h1>;
+    return (
+      <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">
+        <BallTriangle
+          height={150}
+          width={150}
+          radius={9}
+          color="white"
+          ariaLabel="ball-triangle-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
+    );
   }
   if (isError) {
     console.log(error);
@@ -63,7 +77,7 @@ export default function Users() {
     );
   });
 
-  console.log(fleets);
+
 
   return (
     <div>

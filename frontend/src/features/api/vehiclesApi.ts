@@ -12,7 +12,7 @@ const addingHeader = (headers: any) => {
   headers.set("Authorization", `${userToken}`);
   return headers;
 };
-
+//"https://vehicle-management-sytem.onrender.com"
 export const vehicleApi = createApi({
   reducerPath: "vehicleApi",
   baseQuery: fetchBaseQuery({

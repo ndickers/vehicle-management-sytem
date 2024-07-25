@@ -33,6 +33,16 @@ export async function serveBookings(): Promise<any> {
     },
   });
 }
+export async function serveUserBooking(id: number): Promise<any> {
+  return await db.query.bookings.findMany({
+    where: eq(bookings.userId, id),
+    columns: {
+      vehicleId: false,
+      locationId: false,
+      userId: false,
+    },
+  });
+}
 
 export async function serveOneBooking(id: number): Promise<any> {
   return await db.query.bookings.findMany({

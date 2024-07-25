@@ -1,6 +1,7 @@
 import { useState } from "react";
 import VehiclesForm from "../../../components/adminForms/VehiclesForm";
 import VehicleSpecForm from "../../../components/adminForms/VehicleSpecForm";
+import { BallTriangle } from "react-loader-spinner";
 import {
   useGetVehiclesQuery,
   useDeleteVehicleMutation,
@@ -23,8 +24,22 @@ export default function Vehicles() {
     console.log(error);
     return <h1>Server error, unable to fetch data</h1>;
   }
+
   if (isLoading) {
-    <h1>loading...</h1>;
+    return (
+      <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">
+        <BallTriangle
+          height={150}
+          width={150}
+          radius={9}
+          color="white"
+          ariaLabel="ball-triangle-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
+    );
   }
 
   const tableRow = vehicles?.data.map((vehicle) => {
@@ -74,9 +89,22 @@ export default function Vehicles() {
       </tr>
     );
   });
-  console.log(vehicles);
+  
   if (deleteIsLoading) {
-    return <h1>deleting vehicle....</h1>;
+    return (
+      <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">
+        <BallTriangle
+          height={150}
+          width={150}
+          radius={9}
+          color="white"
+          ariaLabel="ball-triangle-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
+    );
   }
   if (deleteIsError) {
     console.log(deleteError);

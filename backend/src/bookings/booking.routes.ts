@@ -6,6 +6,7 @@ import {
   getOneBooking,
   createBooking,
   updateBooking,
+  getUserBookings,
   deleteBooking,
 } from "./booking.controller";
 import { validateInput } from "../middleware/validate";
@@ -20,8 +21,12 @@ const schema = z.object({
   totalAmount: z.number().positive(),
 });
 
+
+
 bookingRoutes.get("/bookings",adminAuth ,getBookings);
 bookingRoutes.get("/bookings/:id",authorizeAll , getOneBooking);
+bookingRoutes.get("/bookings/user/:id" , getUserBookings);
+
 
 bookingRoutes.post(
   "/bookings",

@@ -1,5 +1,6 @@
 import UsersForm from "../../../components/adminForms/UsersForm";
 import { useState } from "react";
+import { BallTriangle } from "react-loader-spinner";
 import {
   useGetUsersQuery,
   useDeleteUserMutation,
@@ -14,7 +15,20 @@ export default function Users() {
   ] = useDeleteUserMutation();
 
   if (isLoading) {
-    return <h1>fetching users....</h1>;
+    return (
+      <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">
+        <BallTriangle
+          height={150}
+          width={150}
+          radius={9}
+          color="white"
+          ariaLabel="ball-triangle-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
+    );
   }
   if (isError) {
     console.log(error);
@@ -22,7 +36,20 @@ export default function Users() {
     return <h1>Server error, unable to get users</h1>;
   }
   if (deleteIsLoading) {
-    return <tr>deleting user....</tr>;
+    return (
+      <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">
+        <BallTriangle
+          height={150}
+          width={150}
+          radius={9}
+          color="white"
+          ariaLabel="ball-triangle-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
+    );
   }
   if (deleteIsError) {
     console.log(deleteError);

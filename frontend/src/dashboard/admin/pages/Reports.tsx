@@ -4,15 +4,22 @@ import {
   useGetAllReportsQuery,
   useDeleteReportMutation,
 } from "../../../features/api/vehiclesApi";
+import { BallTriangle } from "react-loader-spinner";
 export default function Reports() {
   const [showReportForm, setShowReportForm] = useState({
     report: null,
     show: false,
   });
-  const { data: reports, error, isLoading, isError } = useGetAllReportsQuery({});
-  const [deleteReport, { isError:deleteIsError, error:deleteError, isLoading:deleteIsLoading }] =
-    useDeleteReportMutation();
-
+  const {
+    data: reports,
+    error,
+    isLoading,
+    isError,
+  } = useGetAllReportsQuery({});
+  const [
+    deleteReport,
+    { isError: deleteIsError, error: deleteError, isLoading: deleteIsLoading },
+  ] = useDeleteReportMutation();
   async function handleDeleteReport(id) {
     try {
       const result = await deleteReport(id);
@@ -55,7 +62,20 @@ export default function Reports() {
     return <h1>server error, unable to update report</h1>;
   }
   if (deleteIsLoading) {
-    return <h1>deleting report...</h1>;
+    return (
+      <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">
+        <BallTriangle
+          height={150}
+          width={150}
+          radius={9}
+          color="white"
+          ariaLabel="ball-triangle-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
+    );
   }
   if (deleteIsError) {
     console.log(deleteError);

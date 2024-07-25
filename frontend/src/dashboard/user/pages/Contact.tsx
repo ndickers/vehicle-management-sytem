@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useCreateReportMutation } from "../../../features/api/vehiclesApi";
 import { RootState } from '../../../app/store';
-
+import { BallTriangle } from "react-loader-spinner";
 
 
 export default function Contact() {
@@ -32,7 +32,18 @@ export default function Contact() {
   }
 
   if (isLoading) {
-    return <h1>sending report...</h1>;
+    <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">
+        <BallTriangle
+          height={150}
+          width={150}
+          radius={9}
+          color="white"
+          ariaLabel="ball-triangle-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
   }
   if (isError) {
     console.log(error);

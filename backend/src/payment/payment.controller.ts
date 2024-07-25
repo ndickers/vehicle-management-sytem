@@ -79,8 +79,8 @@ export async function createCheckout(c: Context) {
   const session = await stripe.checkout.sessions.create({
     line_items: vehiclesToBePaid,
     mode: "payment",
-    success_url: `${process.env.BASE_URL}/success`,
-    cancel_url: `${process.env.BASE_URL}/cancel`,
+    success_url: `https://nice-pebble-0f6f66603.5.azurestaticapps.net/dashboard/user/success`,
+    cancel_url: `https://nice-pebble-0f6f66603.5.azurestaticapps.net/dashboard/user/cancel`,
   });
   return c.json({ sessionId: session.id });
 }

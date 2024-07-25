@@ -4,7 +4,7 @@ import {
   useGetLocationQuery,
   useDeleteLocationMutation,
 } from "../../../features/api/vehiclesApi";
-
+import { BallTriangle } from "react-loader-spinner";
 export default function Users() {
   const [showLocationForm, setShowLocationForm] = useState({
     location: null,
@@ -22,7 +22,20 @@ export default function Users() {
     { isError: deleteIsError, error: deleteError, isLoading: deleteIsLoading },
   ] = useDeleteLocationMutation();
   if (isLoading) {
-    return <h1>fetching locations....</h1>;
+    return (
+      <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">
+        <BallTriangle
+          height={150}
+          width={150}
+          radius={9}
+          color="white"
+          ariaLabel="ball-triangle-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
+    );
   }
   if (isError) {
     console.log(error);
@@ -68,7 +81,20 @@ export default function Users() {
   });
 
   if (deleteIsLoading) {
-    return <h1>deleting location....</h1>;
+    return (
+      <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">
+        <BallTriangle
+          height={150}
+          width={150}
+          radius={9}
+          color="white"
+          ariaLabel="ball-triangle-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
+    );
   }
   if (deleteIsError) {
     console.log(deleteError);

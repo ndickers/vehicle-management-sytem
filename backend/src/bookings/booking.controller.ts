@@ -3,6 +3,7 @@ import {
   serveOneBooking,
   createBookingService,
   serveBookingUpdate,
+  serveUserBooking,
   serveBookingDelete,
 } from "./booking.service";
 import { TIBooking } from "../drizzle/schema";
@@ -37,6 +38,22 @@ export async function getOneBooking(c: Context) {
     return c.json({ error }, 404);
   }
 }
+export async function getUserBookings(c: Context) {
+  try {
+    const id: number = Number(c.req.param("id"));
+    const booking = await serveUserBooking(id);
+    if (booking === null) {
+      return c.json({ error: "Server Error" }, 500);
+    }
+    if (booking?.length === 0) {
+      return c.json({ error: "No Booking" }, 404);
+    }
+    return c.json(booking);
+  } catch (error) {
+    return c.json({ error }, 404);
+  }
+}
+
 
 export async function createBooking(c: Context) {
   const booking = await c.req.json();
@@ -67,6 +84,8 @@ export async function updateBooking(c: Context) {
     return c.json({ error }, 404);
   }
 }
+
+
 
 export async function deleteBooking(c: Context) {
   const id = Number(c.req.param("id"));

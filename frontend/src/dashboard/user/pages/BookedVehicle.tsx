@@ -78,18 +78,20 @@ export default function BookedVehicle() {
     return <h1>Server error, unable to process payment</h1>;
   }
   if (isLoading || checkoutIsLoading) {
-    <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">
-      <BallTriangle
-        height={150}
-        width={150}
-        radius={9}
-        color="white"
-        ariaLabel="ball-triangle-loading"
-        wrapperStyle={{}}
-        wrapperClass=""
-        visible={true}
-      />
-    </div>;
+    return (
+      <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">
+        <BallTriangle
+          height={150}
+          width={150}
+          radius={9}
+          color="white"
+          ariaLabel="ball-triangle-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
+    );
   }
   return (
     <div className="px-16 pt-12 w-full">

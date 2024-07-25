@@ -2,9 +2,8 @@ import DashHeader from "./DashHeader";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useCreateReportMutation } from "../../../features/api/vehiclesApi";
-import { RootState } from '../../../app/store';
+import { RootState } from "../../../app/store";
 import { BallTriangle } from "react-loader-spinner";
-
 
 export default function Contact() {
   const {
@@ -14,9 +13,9 @@ export default function Contact() {
   } = useForm();
   const [createReport, { error, isLoading, isError }] =
     useCreateReportMutation();
-  const userId = useSelector((state:RootState) => state.loginUser.user.id);
+  const userId = useSelector((state: RootState) => state.loginUser.user.id);
 
-  async function handleSubmitReport(data:any) {
+  async function handleSubmitReport(data: any) {
     const reportData = {
       userId,
       ...data,
@@ -32,7 +31,8 @@ export default function Contact() {
   }
 
   if (isLoading) {
-    <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">
+    return (
+      <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">
         <BallTriangle
           height={150}
           width={150}
@@ -44,6 +44,7 @@ export default function Contact() {
           visible={true}
         />
       </div>
+    );
   }
   if (isError) {
     console.log(error);
@@ -66,22 +67,36 @@ export default function Contact() {
             placeholder="subject"
           />
           {errors.subject !== undefined && (
-            <p className="text-[#d9534f]"> {typeof errors.subject.message === 'string' ? errors.subject.message : 'Error'}</p>
+            <p className="text-[#d9534f]">
+              {" "}
+              {typeof errors.subject.message === "string"
+                ? errors.subject.message
+                : "Error"}
+            </p>
           )}
           <textarea
             {...register("description", {
               required: "description is required",
             })}
             className="update-form h-[8rem] bg-white"
-        
             placeholder="description"
           />
           {errors.description !== undefined && (
-            <p className="text-[#d9534f]"> {typeof errors.description.message === 'string' ? errors.description.message : 'Error'}</p>
+            <p className="text-[#d9534f]">
+              {" "}
+              {typeof errors.description.message === "string"
+                ? errors.description.message
+                : "Error"}
+            </p>
           )}
 
           {errors.status !== undefined && (
-            <p className="text-[#d9534f]"> {typeof errors.status.message === 'string' ? errors.status.message : 'Error'}</p>
+            <p className="text-[#d9534f]">
+              {" "}
+              {typeof errors.status.message === "string"
+                ? errors.status.message
+                : "Error"}
+            </p>
           )}
           <button className="submit-btn ">submit report</button>
         </form>

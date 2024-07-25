@@ -4,6 +4,7 @@ import userIcon from "../../../assets/user-icon.png";
 import { useState } from "react";
 import { logout } from "../../../features/login/userLoginSlice";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 export default function DashHeader({ title }: { title: string }) {
   const userInfo = useSelector((state: RootState) => state.loginUser);
@@ -22,6 +23,7 @@ export default function DashHeader({ title }: { title: string }) {
               <button
                 onClick={() => {
                   dispatch(logout());
+                  toast.success("logged out")
                   navigate("/login/user");
                 }}
                 className="border hover:bg-white hover:text-black border-white bg-black px-2 rounded-md"

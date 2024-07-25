@@ -6,6 +6,7 @@ import userIcon from "../../../assets/user-icon.png";
 import { logout } from "../../../features/login/adminLoginSlice";
 import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 
 export default function Dashboard() {
@@ -75,6 +76,7 @@ export default function Dashboard() {
                   onClick={() => {
                     dispatch(logout());
                     navigate("/login/admin");
+                    toast.success("logged out")
                   }}
                   className="border hover:bg-white hover:text-black border-white bg-black px-2 rounded-md"
                 >

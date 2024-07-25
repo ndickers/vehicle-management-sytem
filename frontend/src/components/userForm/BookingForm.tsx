@@ -6,6 +6,7 @@ import {
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
+import { BallTriangle } from "react-loader-spinner";
 
 export default function BookingForm({ setShowBookForm, showBookForm }: any) {
   const { data: location, isError, error, isLoading } = useGetLocationQuery({});
@@ -60,15 +61,28 @@ export default function BookingForm({ setShowBookForm, showBookForm }: any) {
       console.log(error);
     }
   }
-
   if (createIsError) {
     console.log(createError);
     return (
       <h1 className="text-[#d9534f]">Server error occured while booking</h1>
     );
   }
+
   if (createIsLoading) {
-    return <h1>booking...</h1>;
+    return (
+      <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">
+        <BallTriangle
+          height={150}
+          width={150}
+          radius={9}
+          color="white"
+          ariaLabel="ball-triangle-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
+    );
   }
 
   return (
@@ -78,7 +92,7 @@ export default function BookingForm({ setShowBookForm, showBookForm }: any) {
           setShowBookForm((prevData: any) => ({ ...prevData, show: false }));
         }
       }}
-      className="bg-black opacity-80 z-10 h-[100vh] w-[100%] top-0 left-0 absolute p-8"
+      className="bg-black opacity-80 z-10 h-[100%] w-[100%] top-0 left-0 absolute p-8"
     >
       <h1 className="text-center text-2xl font-bold mb-6">Book vehicle</h1>
       <form

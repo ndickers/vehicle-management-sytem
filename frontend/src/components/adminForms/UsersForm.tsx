@@ -4,6 +4,7 @@ import {
   useUpdateUserMutation,
 } from "../../features/api/vehiclesApi";
 import { useEffect } from "react";
+import { BallTriangle } from 'react-loader-spinner';
 
 export default function UsersForm({ setShowUserForm, userDetail, update }) {
   const [registerUser, { isError, error, isLoading }] =
@@ -53,16 +54,28 @@ export default function UsersForm({ setShowUserForm, userDetail, update }) {
       }
     }
   }
-  if (isLoading) {
-    return <h1>creating user...</h1>;
-  }
+
   if (isError) {
     console.log(error);
 
     return <h1>Error, unable to create user</h1>;
   }
-  if (updateIsLoading) {
-    return <h1>updating user</h1>;
+
+  if (updateIsLoading || isLoading) {
+    return (
+      <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">
+        <BallTriangle
+          height={150}
+          width={150}
+          radius={9}
+          color="white"
+          ariaLabel="ball-triangle-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
+    );
   }
   if (updateIsError) {
     console.log(updateError);

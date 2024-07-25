@@ -1,6 +1,6 @@
 import { useForm, FieldError } from "react-hook-form";
 import { useCreateVehicleSpecMutation } from "../../features/api/vehiclesApi";
-
+import { BallTriangle } from "react-loader-spinner";
 export default function VehicleSpecForm({ setShowSpecForm, vehicleId }) {
   const [createVehicleSpec, { isLoading }] = useCreateVehicleSpecMutation();
   const {
@@ -27,7 +27,20 @@ export default function VehicleSpecForm({ setShowSpecForm, vehicleId }) {
     }
   }
   if (isLoading) {
-    return <h1>Adding specification...</h1>;
+    return (
+      <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">
+        <BallTriangle
+          height={150}
+          width={150}
+          radius={9}
+          color="white"
+          ariaLabel="ball-triangle-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
+    );
   }
 
   return (

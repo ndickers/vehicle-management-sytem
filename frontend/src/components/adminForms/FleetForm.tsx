@@ -1,9 +1,10 @@
-import { useForm,FieldError } from "react-hook-form";
+import { useForm, FieldError } from "react-hook-form";
 import {
   useCreateFleetMutation,
   useUpdateFleetMutation,
 } from "./../../features/api/vehiclesApi";
 import { useEffect } from "react";
+import { BallTriangle } from 'react-loader-spinner';
 
 export default function FleetForm({ setShowFleetForm, update, fleet }) {
   const [createFleet, { isError, error, isLoading }] = useCreateFleetMutation();
@@ -64,16 +65,27 @@ export default function FleetForm({ setShowFleetForm, update, fleet }) {
       console.log("");
     }
   }
-  if (isLoading) {
-    return <h1>creating fleet....</h1>;
+  if (isLoading || fleetIsLoading) {
+    return (
+      <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">
+        <BallTriangle
+          height={150}
+          width={150}
+          radius={9}
+          color="white"
+          ariaLabel="ball-triangle-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
+    );
   }
   if (isError) {
     console.log(error);
     return <h1>server error, unable to creat fleet</h1>;
   }
-  if (fleetIsLoading) {
-    return <h1>updating fleet....</h1>;
-  }
+
   if (fleetIsError) {
     console.log(fleetError);
     return <h1>Server error, unable to update fleet</h1>;
@@ -170,8 +182,10 @@ export default function FleetForm({ setShowFleetForm, update, fleet }) {
           <option value="poor">poor</option>
         </select>
         {errors.role !== undefined && (
-          <p className="text-[#d9534f]">{(errors.status as FieldError)?.message ||
-            "status error message not available"}</p>
+          <p className="text-[#d9534f]">
+            {(errors.status as FieldError)?.message ||
+              "status error message not available"}
+          </p>
         )}
         <button className="submit-btn ">
           {update ? "update fleet" : "post fleet"}

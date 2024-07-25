@@ -5,12 +5,15 @@ import {
 } from "../../features/api/vehiclesApi";
 import axios from "axios";
 import { useEffect } from "react";
+import { BallTriangle } from 'react-loader-spinner';
 export default function VehiclesForm({ setShowVehicleForm, vehicle, update }) {
   const { register, handleSubmit, reset } = useForm();
   const [createVehicle, { isLoading, isError, error }] =
     useCreateVehicleMutation();
-  const [updateVehicle, { isLoading:updateIsLoading, isError:updateIsError, error:updateError }] =
-    useUpdateVehicleMutation();
+  const [
+    updateVehicle,
+    { isLoading: updateIsLoading, isError: updateIsError, error: updateError },
+  ] = useUpdateVehicleMutation();
   useEffect(() => {
     if (vehicle !== null) {
       reset(vehicle);
@@ -66,6 +69,7 @@ export default function VehiclesForm({ setShowVehicleForm, vehicle, update }) {
       formData.append("file", image);
       formData.append("upload_preset", import.meta.env.VITE_PRESET_KEY);
 
+
       try {
         const { data: imageUrl } = await axios.post(
           "https://api.cloudinary.com/v1_1/du9vpm7jj/image/upload",
@@ -86,15 +90,26 @@ export default function VehiclesForm({ setShowVehicleForm, vehicle, update }) {
     }
   }
 
-  if (isLoading) {
-    return <h1>creating vehicle....</h1>;
-  }
   if (isError) {
     console.log(error);
     return <h1>Server error, unable to create vehicle</h1>;
   }
-  if (updateIsLoading) {
-    return <h1>updating vehicle....</h1>;
+  
+  if (updateIsLoading || isLoading) {
+    return (
+      <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">
+        <BallTriangle
+          height={150}
+          width={150}
+          radius={9}
+          color="white"
+          ariaLabel="ball-triangle-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
+    );
   }
   if (updateIsError) {
     console.log(updateError);

@@ -72,14 +72,12 @@ export default function BookedVehicle() {
       navigate("/dashboard/user/success");
     }
   }
-  if (checkoutIsLoading) {
-    return <h1>processing payment...</h1>;
-  }
+
   if (checkoutIsError) {
     console.log(checkoutError);
     return <h1>Server error, unable to process payment</h1>;
   }
-  if (isLoading) {
+  if (isLoading || checkoutIsLoading) {
     <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">
       <BallTriangle
         height={150}

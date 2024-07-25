@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import { useUpdateReportMutation } from "../../features/api/vehiclesApi";
 
 import { Dispatch, SetStateAction } from "react";
+import { BallTriangle } from 'react-loader-spinner';
+
 
 interface ReportFormProps {
   setShowReportForm: Dispatch<SetStateAction<{ report: any; show: boolean }>>;
@@ -47,7 +49,19 @@ export default function ReportForm({
     }
   }
   if (isLoading) {
-    return <h1>updating report...</h1>;
+    return (
+      <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">
+        <BallTriangle
+          height={150}
+          width={150}
+          radius={9}
+          color="white"
+          ariaLabel="ball-triangle-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>)
   }
   if (isError) {
     console.log(error);

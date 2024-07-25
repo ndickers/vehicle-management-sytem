@@ -1,6 +1,7 @@
 import editIcon from "../assets/edit.svg";
 import deleteIcon from "../assets/delete.svg";
 import { useDeleteReportMutation } from "../features/api/vehiclesApi";
+import { BallTriangle } from 'react-loader-spinner';
 
 export default function ContactReport(props:any) {
   const [deleteReport, { error, isError, isLoading }] =
@@ -9,7 +10,19 @@ export default function ContactReport(props:any) {
 
   const localDate = date.toLocaleDateString();
   if(isLoading){
-    return <h1>deleting...</h1>
+    return (
+      <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">
+        <BallTriangle
+          height={150}
+          width={150}
+          radius={9}
+          color="white"
+          ariaLabel="ball-triangle-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>)
   }
   if(isError){
     console.log(error);

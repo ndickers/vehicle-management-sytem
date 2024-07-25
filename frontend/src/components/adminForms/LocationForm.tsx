@@ -4,6 +4,7 @@ import {
   useUpdateLocationMutation,
 } from "../../features/api/vehiclesApi";
 import { useEffect } from "react";
+import { BallTriangle } from 'react-loader-spinner';
 
 export default function LocationForm({
   setShowLocationForm,
@@ -66,11 +67,22 @@ export default function LocationForm({
       </h1>
     );
   }
-  if (isLoading) {
-    return <h1>creating location...</h1>;
-  }
-  if (updateIsLoading) {
-    return <h1>updating...</h1>;
+
+  if (updateIsLoading || isLoading) {
+    return (
+      <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">
+        <BallTriangle
+          height={150}
+          width={150}
+          radius={9}
+          color="white"
+          ariaLabel="ball-triangle-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
+    );
   }
   if (updateIsError) {
     console.log(updateError);

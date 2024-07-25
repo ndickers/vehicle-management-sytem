@@ -1,5 +1,6 @@
-import { useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useUpdateReportMutation } from "../../features/api/vehiclesApi";
+import { BallTriangle } from 'react-loader-spinner';
 
 interface CustomerReportFormProps {
   setUpdateForm: (updateData: any) => void;
@@ -17,11 +18,7 @@ export default function CustomerReportForm({
 }: CustomerReportFormProps) {
   const [updateReport, { isError, isLoading, error }] =
     useUpdateReportMutation();
-  const {
-    register,
-    handleSubmit,
-    
-  } = useForm<FormValues>();
+  const { register, handleSubmit } = useForm<FormValues>();
 
   async function handleSubmitReport(data: FormValues) {
     try {
@@ -38,7 +35,20 @@ export default function CustomerReportForm({
     console.log(reportId);
   }
   if (isLoading) {
-    return <h1>updating...</h1>;
+    return (
+      <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">
+        <BallTriangle
+          height={150}
+          width={150}
+          radius={9}
+          color="white"
+          ariaLabel="ball-triangle-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
+    );
   }
   if (isError) {
     console.log(error);

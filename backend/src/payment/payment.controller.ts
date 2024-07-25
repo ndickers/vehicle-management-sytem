@@ -79,8 +79,8 @@ export async function createCheckout(c: Context) {
   const session = await stripe.checkout.sessions.create({
     line_items: vehiclesToBePaid,
     mode: "payment",
-    success_url: `https://vehicle-management-sytem-oph3x4ome-ndickers-projects.vercel.app/dashboard/user/success`,
-    cancel_url: `https://vehicle-management-sytem-oph3x4ome-ndickers-projects.vercel.app/dashboard/user/cancel`,
+    success_url: `https://vehicle-management-sytem-oph3x4ome-ndickers-projects.vercel.app/success`,
+    cancel_url: `https://vehicle-management-sytem-oph3x4ome-ndickers-projects.vercel.app/cancel`,
   });
   return c.json({ sessionId: session.id });
 }

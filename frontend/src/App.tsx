@@ -44,10 +44,10 @@ const router = createBrowserRouter([
       { path: "booked-vehicles", element: <BookedVehicle /> },
       { path: "contact-support", element: <Contact /> },
       { path: "manage-support", element: <ManageSupport /> },
-      { path: "success", element: <SuccessPayment /> },
-      { path: "cancel", element: <FailedPayment /> },
     ],
   },
+  { path: "success", element: <SuccessPayment /> },
+  { path: "cancel", element: <FailedPayment /> },
 ]);
 
 function App() {

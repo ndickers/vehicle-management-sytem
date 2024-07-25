@@ -1,6 +1,12 @@
 import { Link } from "react-router-dom";
 import unDrawImg from "../assets/undraw-img.svg";
 import logo from "../assets/logo.svg";
+import telegramIcon from "../assets/Telegram_black.svg";
+import viber from "../assets/Viber.svg";
+import viber1 from "../assets/Viber1.svg";
+import call from "../assets/Call.svg";
+import emailIcon from "../assets/Union.svg";
+
 export default function LandingPage() {
   return (
     <div>
@@ -22,7 +28,7 @@ export default function LandingPage() {
                     </a>
                   </li>
                   <li>
-                    <a className="link-btn" href="http://">
+                    <a className="link-btn" href="#contact">
                       Contact
                     </a>
                   </li>
@@ -67,40 +73,56 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* <section>
-        <div>
-          <div>
-            <img src={logo} alt="" />
-            <p>254 car higher</p>
-          </div>
-          <div>
-            <p>discount</p>
-            <p>help</p>
-            <p>promocode</p>
-            <p>about us</p>
-            <p>home</p>
-          </div>
-        </div>
-        <div>
-          <div>
-            <div>
-              <div>
-                <img src={icon} alt="" srcset="" />
-                <p>0768665354</p>
-              </div>
-              <div>
-                <img src="" alt="" />
-                <img src="" alt="" />
-                <img src="" alt="" />
-              </div>
+      <section id="contact">
+        <h2 className="text-4xl font-bold my-16 text-white text-center">
+          Contact
+        </h2>
+        <div className="flex w-full justify-between px-32 py-28">
+          <div className="flex w-[50%] pl-12 gap-24 ">
+            <div className="text-white opacity-70">
+              <img src={logo} alt="" />
+              <p className="mt-12 ml-8">254 car higher</p>
+            </div>
+            <div className="text-white  flex flex-wrap justify-between gap-x-16 gap-y-4 w-[15rem]">
+              <a className="hover:text-[#BB8C5F]" href="http://">
+                discount
+              </a>
+              <a className="hover:text-[#BB8C5F]" href="http://">
+                help
+              </a>
+              <a className="hover:text-[#BB8C5F]" href="http://">
+                promocode
+              </a>
+              <a className="hover:text-[#BB8C5F]" href="#about">
+                about us
+              </a>
+              <a className="hover:text-[#BB8C5F]" href="#home">
+                home
+              </a>
             </div>
           </div>
-          <div>
-            <img src="" alt="" />
-            bryondickers@gmail.com
+          <div className="w-[50%] pl-36">
+            <div>
+              <div className="flex gap-4">
+                <div className="flex gap-4 items-center text-white ">
+                  <img src={call} alt="" />
+                  <p>0768665354</p>
+                </div>
+                <div className="flex gap-2 ">
+                  <img src={viber} alt="" />
+                  <img src={telegramIcon} alt="" />
+                  <img src={viber1} alt="" />
+                </div>
+              </div>
+              <p className="text-white opacity-50 mt-4">24 hours operational</p>
+            </div>
+            <div className="flex mt-8 text-white gap-4">
+              <img src={emailIcon} alt="" />
+              bryondickers@gmail.com
+            </div>
           </div>
         </div>
-      </section> */}
+      </section>
 
       {/* add contact page */}
     </div>

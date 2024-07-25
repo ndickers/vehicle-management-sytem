@@ -25,7 +25,7 @@ export default function Dashboard() {
           <li className="my-3 ">
             <Link
               to={"/dashboard/admin"}
-              className="underline focus:text-[#CAC326] "
+              className="underline hover:text-[#BB8C5F] focus:text-[#BB8C5F] "
             >
               manage vehicles
             </Link>
@@ -33,7 +33,7 @@ export default function Dashboard() {
           <li className="my-3 ">
             <Link
               to={"/dashboard/admin/users"}
-              className="underline focus:text-[#CAC326]"
+              className="underline hover:text-[#BB8C5F] focus:text-[#BB8C5F]"
             >
               manage user
             </Link>
@@ -41,7 +41,7 @@ export default function Dashboard() {
           <li className="my-3 ">
             <Link
               to={"/dashboard/admin/locations"}
-              className="underline focus:text-[#CAC326]"
+              className="underline hover:text-[#BB8C5F] focus:text-[#BB8C5F]"
             >
               manage location
             </Link>
@@ -49,7 +49,7 @@ export default function Dashboard() {
           <li className="my-3 ">
             <Link
               to={"/dashboard/admin/fleets"}
-              className="underline focus:text-[#CAC326]"
+              className="underline hover:text-[#BB8C5F] focus:text-[#BB8C5F]"
             >
               manage fleet
             </Link>
@@ -57,7 +57,7 @@ export default function Dashboard() {
           <li className="my-3 ">
             <Link
               to={"/dashboard/admin/reports"}
-              className="underline focus:text-[#CAC326]"
+              className="underline hover:text-[#BB8C5F] focus:text-[#BB8C5F]"
             >
               manage reports
             </Link>

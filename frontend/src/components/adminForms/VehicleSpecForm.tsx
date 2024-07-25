@@ -1,6 +1,8 @@
 import { useForm, FieldError } from "react-hook-form";
 import { useCreateVehicleSpecMutation } from "../../features/api/vehiclesApi";
 import { BallTriangle } from "react-loader-spinner";
+import { toast } from 'react-toastify';
+
 export default function VehicleSpecForm({ setShowSpecForm, vehicleId }) {
   const [createVehicleSpec, { isLoading }] = useCreateVehicleSpecMutation();
   const {
@@ -20,9 +22,13 @@ export default function VehicleSpecForm({ setShowSpecForm, vehicleId }) {
     };
     try {
       const result = await createVehicleSpec(vehicleSpecs).unwrap();
+      toast.success("vehicle spec created successfull")
+      setShowSpecForm(false);
       reset();
       console.log(result);
     } catch (error) {
+      toast.error("vehicle specification failed")
+      setShowSpecForm(false);
       console.log(error);
     }
   }

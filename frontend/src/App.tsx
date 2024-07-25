@@ -11,11 +11,13 @@ import Vehicles from "./dashboard/admin/pages/Vehicles";
 import Users from "./dashboard/admin/pages/Users";
 import Location from "./dashboard/admin/pages/Location";
 import Fleets from "./dashboard/admin/pages/Fleets";
+import "react-toastify/dist/ReactToastify.css";
 import Reports from "./dashboard/admin/pages/Reports";
 import Contact from "./dashboard/user/pages/Contact";
 import ManageSupport from "./dashboard/user/pages/ManageSupport";
 import SuccessPayment from "./dashboard/user/pages/SuccessPayment";
 import FailedPayment from "./dashboard/user/pages/FailedPayment";
+import { ToastContainer } from "react-toastify";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -54,6 +56,7 @@ function App() {
   return (
     <div className="bg-black root">
       <RouterProvider router={router} />
+      <ToastContainer />
     </div>
   );
 }

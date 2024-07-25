@@ -3,10 +3,10 @@ import { useForm, FieldError } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-
 import { userLogin } from "../features/login/userLoginSlice";
 import { adminLogin } from "../features/login/adminLoginSlice";
 import { RootState, AppDispatch } from "../app/store";
+import { toast } from 'react-toastify';
 interface LoginProps {
   title: string;
 }
@@ -47,10 +47,12 @@ export default function Login({ title }: LoginProps) {
   useEffect(() => {
     if (title === "User") {
       if (response.user !== null) {
+        toast.success("login successfull")
         navigate("/dashboard/user");
       }
     } else {
       if (adminRes.user !== null) {
+        toast.success("login successfull")
         navigate("/dashboard/admin");
       }
     }

@@ -5,6 +5,7 @@ import {
 } from "../../features/api/vehiclesApi";
 import { useEffect } from "react";
 import { BallTriangle } from 'react-loader-spinner';
+import { toast } from 'react-toastify';
 
 export default function LocationForm({
   setShowLocationForm,
@@ -39,6 +40,11 @@ export default function LocationForm({
     if (location === null) {
       try {
         const result = await createLocation(data).unwrap();
+        toast.success("location created")
+        setShowLocationForm((prevData) => ({
+          ...prevData,
+          show: false,
+        }));
         console.log(result);
         reset();
       } catch (error) {
@@ -51,6 +57,7 @@ export default function LocationForm({
             location: data,
             id: location.id,
           });
+          toast.success("location update successfull")
           console.log(result);
           reset();
         } catch (error) {
@@ -61,6 +68,7 @@ export default function LocationForm({
   }
   if (isError) {
     console.log(error);
+    toast.error("location creation failed")
     return (
       <h1 className="text-[#d9534f]">
         Server error. Unable to create location
@@ -86,7 +94,7 @@ export default function LocationForm({
   }
   if (updateIsError) {
     console.log(updateError);
-
+    toast.success("location update successful")
     return <h1>server error, unable to update</h1>;
   }
 

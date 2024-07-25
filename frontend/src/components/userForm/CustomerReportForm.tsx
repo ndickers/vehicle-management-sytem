@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useUpdateReportMutation } from "../../features/api/vehiclesApi";
-import { BallTriangle } from 'react-loader-spinner';
-
+import { BallTriangle } from "react-loader-spinner";
+import { toast } from "react-toastify";
 interface CustomerReportFormProps {
   setUpdateForm: (updateData: any) => void;
   reportId: string;
@@ -26,6 +26,11 @@ export default function CustomerReportForm({
         report: data,
         id: reportId,
       }).unwrap();
+      toast.success("report updated successfull");
+      setUpdateForm((prevData: { report: any; show: boolean }) => ({
+        ...prevData,
+        show: false,
+      }));
       console.log(result);
     } catch (error) {
       if (error) {
@@ -52,6 +57,11 @@ export default function CustomerReportForm({
   }
   if (isError) {
     console.log(error);
+    toast.error("report update failed");
+    setUpdateForm((prevData: { report: any; show: boolean }) => ({
+      ...prevData,
+      show: false,
+    }));
     return <h1>Error, unable to update report</h1>;
   }
 

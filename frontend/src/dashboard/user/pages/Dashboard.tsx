@@ -14,7 +14,7 @@ export default function Dashboard() {
           <li className="my-3 ">
             <Link
               to={"/dashboard/user"}
-              className="underline focus:text-[#CAC326] "
+              className="underline focus:text-[#BB8C5F] hover:text-[#BB8C5F] "
             >
               view vehicles
             </Link>
@@ -22,7 +22,7 @@ export default function Dashboard() {
           <li className="my-3 ">
             <Link
               to={"/dashboard/user/booked-vehicles"}
-              className="underline focus:text-[#CAC326]"
+              className="underline focus:text-[#BB8C5F] hover:text-[#BB8C5F]"
             >
               booked vehicles
             </Link>
@@ -30,7 +30,7 @@ export default function Dashboard() {
           <li className="my-3 ">
             <Link
               to={"/dashboard/user/contact-support"}
-              className="underline focus:text-[#CAC326]"
+              className="underline focus:text-[#BB8C5F] hover:text-[#BB8C5F]"
             >
               contact support
             </Link>
@@ -38,7 +38,7 @@ export default function Dashboard() {
           <li className="my-3 ">
             <Link
               to={"/dashboard/user/manage-support"}
-              className="underline focus:text-[#CAC326]"
+              className="underline focus:text-[#BB8C5F] hover:text-[#BB8C5F]"
             >
               manage support
             </Link>

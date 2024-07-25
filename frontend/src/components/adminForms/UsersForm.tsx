@@ -5,6 +5,7 @@ import {
 } from "../../features/api/vehiclesApi";
 import { useEffect } from "react";
 import { BallTriangle } from 'react-loader-spinner';
+import { toast } from 'react-toastify';
 
 export default function UsersForm({ setShowUserForm, userDetail, update }) {
   const [registerUser, { isError, error, isLoading }] =
@@ -39,14 +40,20 @@ export default function UsersForm({ setShowUserForm, userDetail, update }) {
       const userDetails = { ...data, password: "1234" };
       try {
         const result = await registerUser(userDetails);
+        setShowUserForm((prevData) => ({ ...prevData, show: false }));
+        toast.success("user registered successfull")
         console.log(result);
       } catch (error) {
+        setShowUserForm((prevData) => ({ ...prevData, show: false }));
+        toast.error("registration failed")
         console.log(error);
       }
     } else {
       if (update) {
         try {
           const result = await updateUser({ user: data, id: userDetail.id });
+          toast.success("user updated successful")
+          setShowUserForm((prevData) => ({ ...prevData, show: false }));
           console.log(result);
         } catch (error) {
           console.log(error);
@@ -57,7 +64,8 @@ export default function UsersForm({ setShowUserForm, userDetail, update }) {
 
   if (isError) {
     console.log(error);
-
+    toast.error("user registration failed")
+    setShowUserForm((prevData) => ({ ...prevData, show: false }));
     return <h1>Error, unable to create user</h1>;
   }
 
@@ -79,6 +87,8 @@ export default function UsersForm({ setShowUserForm, userDetail, update }) {
   }
   if (updateIsError) {
     console.log(updateError);
+    toast.error("user update failed")
+    setShowUserForm((prevData) => ({ ...prevData, show: false }));
     return <h1>Server error, unable to update user</h1>;
   }
 

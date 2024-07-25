@@ -5,7 +5,7 @@ import {
 } from "./../../features/api/vehiclesApi";
 import { useEffect } from "react";
 import { BallTriangle } from 'react-loader-spinner';
-
+import { toast } from "react-toastify";
 export default function FleetForm({ setShowFleetForm, update, fleet }) {
   const [createFleet, { isError, error, isLoading }] = useCreateFleetMutation();
   const [
@@ -43,9 +43,12 @@ export default function FleetForm({ setShowFleetForm, update, fleet }) {
       };
       try {
         const result = await createFleet(fleetData).unwrap();
+        toast.success("fleet created successful")
         console.log(result);
+        setShowFleetForm(false);
         reset();
       } catch (error) {
+        toast.error("fleet creation failed")
         console.log(error);
       }
     } else {
@@ -58,6 +61,8 @@ export default function FleetForm({ setShowFleetForm, update, fleet }) {
       };
       try {
         const result = await updateFleet({ fleet: fleetData, id: fleet.id });
+        toast.success("fleet update successfull")
+        setShowFleetForm(false);
         console.log(result);
       } catch (error) {
         console.log(error);

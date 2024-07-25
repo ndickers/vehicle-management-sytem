@@ -4,7 +4,7 @@ import { useUpdateReportMutation } from "../../features/api/vehiclesApi";
 
 import { Dispatch, SetStateAction } from "react";
 import { BallTriangle } from 'react-loader-spinner';
-
+import { toast } from 'react-toastify';
 
 interface ReportFormProps {
   setShowReportForm: Dispatch<SetStateAction<{ report: any; show: boolean }>>;
@@ -42,6 +42,8 @@ export default function ReportForm({
         report: data,
         id: report.id,
       }).unwrap();
+      toast.success("report update successfull")
+      setShowReportForm({ report: null, show: false });
       reset();
       console.log(result);
     } catch (error) {
@@ -65,6 +67,8 @@ export default function ReportForm({
   }
   if (isError) {
     console.log(error);
+    toast.error("report update failed")
+    setShowReportForm({ report: null, show: false });
     return <h1>server error, unable to update report</h1>;
   }
 

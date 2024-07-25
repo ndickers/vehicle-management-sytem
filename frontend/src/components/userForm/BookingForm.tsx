@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import { BallTriangle } from "react-loader-spinner";
+import { toast } from "react-toastify";
 
 export default function BookingForm({ setShowBookForm, showBookForm }: any) {
   const { data: location, isError, error, isLoading } = useGetLocationQuery({});
@@ -17,6 +18,7 @@ export default function BookingForm({ setShowBookForm, showBookForm }: any) {
     { error: createError, isLoading: createIsLoading, isError: createIsError },
   ] = useCreateBookingMutation();
   const [calculatedHours, setCalculatedHours] = useState(1);
+
   const {
     register,
     handleSubmit,
@@ -56,6 +58,8 @@ export default function BookingForm({ setShowBookForm, showBookForm }: any) {
     try {
       const result = await createBooking(bookedVehicle).unwrap();
       reset();
+      toast.success("booked successfull");
+      setShowBookForm((prevData: any) => ({ ...prevData, show: false }));
       console.log(result);
     } catch (error) {
       console.log(error);
@@ -63,6 +67,7 @@ export default function BookingForm({ setShowBookForm, showBookForm }: any) {
   }
   if (createIsError) {
     console.log(createError);
+    toast.error("booking failed")
     return (
       <h1 className="text-[#d9534f]">Server error occured while booking</h1>
     );

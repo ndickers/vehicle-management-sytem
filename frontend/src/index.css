@@ -32,7 +32,7 @@
     @apply w-[7rem] text-xl font-semibold inline-block py-2 text-center rounded-3xl;
   }
   .link-btn {
-    @apply font-medium hover:underline hover:text-[#CAC326];
+    @apply font-medium hover:underline hover:text-[#BB8C5F];
   }
   .form-input {
     @apply my-4 rounded-lg px-3 py-3 placeholder:text-xl placeholder:text-black placeholder:text-opacity-70 bg-opacity-70 bg-white;

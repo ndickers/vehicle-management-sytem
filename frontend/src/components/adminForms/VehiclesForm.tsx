@@ -5,7 +5,8 @@ import {
 } from "../../features/api/vehiclesApi";
 import axios from "axios";
 import { useEffect } from "react";
-import { BallTriangle } from 'react-loader-spinner';
+import { BallTriangle } from "react-loader-spinner";
+import { toast } from "react-toastify";
 export default function VehiclesForm({ setShowVehicleForm, vehicle, update }) {
   const { register, handleSubmit, reset } = useForm();
   const [createVehicle, { isLoading, isError, error }] =
@@ -44,10 +45,14 @@ export default function VehiclesForm({ setShowVehicleForm, vehicle, update }) {
             vehicle: vehicleDetails,
             id: vehicle.id,
           }).unwrap();
+          toast.success("vehicle updated successfull");
+          setShowVehicleForm((prevData) => ({ ...prevData, show: false }));
           reset();
           console.log(result);
         } catch (error) {
           console.log(error);
+          toast.error("vehicle creation failed");
+          setShowVehicleForm((prevData) => ({ ...prevData, show: false }));
         }
       } else {
         const vehicleDetails = {
@@ -58,6 +63,8 @@ export default function VehiclesForm({ setShowVehicleForm, vehicle, update }) {
           vehicle: vehicleDetails,
           id: vehicle.id,
         }).unwrap();
+        toast.success("vehicle updated succesful");
+        setShowVehicleForm((prevData) => ({ ...prevData, show: false }));
         reset();
         console.log(result);
         console.log(false);
@@ -68,7 +75,6 @@ export default function VehiclesForm({ setShowVehicleForm, vehicle, update }) {
       const formData = new FormData();
       formData.append("file", image);
       formData.append("upload_preset", import.meta.env.VITE_PRESET_KEY);
-
 
       try {
         const { data: imageUrl } = await axios.post(
@@ -82,9 +88,13 @@ export default function VehiclesForm({ setShowVehicleForm, vehicle, update }) {
           rentRate: Number(data.rentRate),
         };
         const result = await createVehicle(vehicleDetails).unwrap();
+        toast.success("vehicle created successful");
+        setShowVehicleForm((prevData) => ({ ...prevData, show: false }));
         reset();
         console.log(result);
       } catch (error) {
+        toast.error("vehicle creation failed");
+        setShowVehicleForm((prevData) => ({ ...prevData, show: false }));
         console.log(error);
       }
     }
@@ -94,7 +104,7 @@ export default function VehiclesForm({ setShowVehicleForm, vehicle, update }) {
     console.log(error);
     return <h1>Server error, unable to create vehicle</h1>;
   }
-  
+
   if (updateIsLoading || isLoading) {
     return (
       <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">

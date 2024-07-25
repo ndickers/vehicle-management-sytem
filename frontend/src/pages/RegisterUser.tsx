@@ -3,6 +3,8 @@ import { useForm, FieldError } from "react-hook-form";
 import { useState } from "react";
 import { useRegisterUserMutation } from "../features/api/vehiclesApi";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
 export default function Register() {
   const {
     register,
@@ -27,9 +29,11 @@ export default function Register() {
         }).unwrap();
         console.log(result);
         if (result.message === "user created") {
+          toast.success("user created successfull");
           navigate("/login/user");
         }
       } catch (error) {
+        toast.error("user created failed");
         console.log(error);
       }
     } else {

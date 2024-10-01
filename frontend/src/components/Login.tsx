@@ -28,6 +28,7 @@ export default function Login({ title }: LoginProps) {
   const navigate = useNavigate();
 
   async function handleLogin(data: LoginFormData): Promise<any> {
+    
     if (title === "User") {
       const logins = { ...data, role: "user" };
       dispatch(userLogin(logins));

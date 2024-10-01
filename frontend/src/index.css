@@ -29,7 +29,7 @@
 
 @layer components {
   .btns {
-    @apply w-[7rem] text-xl font-semibold inline-block py-2 text-center rounded-3xl;
+    @apply md:w-[7rem] md:text-base md:py-2 text-xl font-semibold inline-block text-center rounded-3xl;
   }
   .link-btn {
     @apply font-medium hover:underline hover:text-[#BB8C5F];

@@ -6,63 +6,76 @@ import viber from "../assets/Viber.svg";
 import viber1 from "../assets/Viber1.svg";
 import call from "../assets/Call.svg";
 import emailIcon from "../assets/Union.svg";
-
+import { Button, Navbar } from "flowbite-react";
 export default function LandingPage() {
   return (
     <div>
-      <section className="p-24 text-white h-[100vh]" id="home">
+      <section className="md:p-16 lg:p-24 p-4 text-white h-[100vh]" id="home">
         <div className="max-w-[1000px] mx-auto">
           <header className="flex justify-between items-center">
-            <img src={logo} alt="" />
-            <div className="w-[55%] justify-between flex items-center">
-              <nav>
-                <ul className="list-none flex items-center gap-5">
-                  <li>
-                    <a className="link-btn" href="#home">
-                      Home
-                    </a>
-                  </li>
-                  <li>
-                    <a className="link-btn" href="#about">
-                      About
-                    </a>
-                  </li>
-                  <li>
-                    <a className="link-btn" href="#contact">
-                      Contact
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-              <div className="flex items-center gap-8">
+            <Navbar
+              fluid
+              rounded
+              className="bg-black w-[100vw]  md:px-16 md:py-8  fixed left-1 top-1"
+            >
+              <Navbar.Brand>
+                <img
+                  src={logo}
+                  className="mr-3 h-12  sm:h-9"
+                  alt="vehicle Rental System Logo"
+                />
+              </Navbar.Brand>
+              <div className="flex items-center gap-x-3 md:order-2 mr-1">
                 <Link
                   to={"/login/user"}
-                  className=" btns border-2 border-white  hover:text-black hover:bg-white"
+                  className=" md:btns text-sm border-2 px-2 border-white rounded-xl hover:text-black hover:bg-white"
                 >
-                  Login
+                  login
                 </Link>
                 <Link
                   to={"/register"}
-                  className="btns py-3 bg-white text-black hover:bg-transparent hover:border-2 hover:text-white hover:border-white"
+                  className="md:btns text-sm bg-white px-2 py-1 rounded-xl text-black hover:bg-transparent hover:border-2 hover:text-white hover:border-white"
                 >
-                  Register
+                  Get started
                 </Link>
+
+                <Navbar.Toggle className="hover:bg-[#BB8C5F]" />
               </div>
-            </div>
+              <Navbar.Collapse>
+                <Navbar.Link
+                  className="link-btn text-white hover:text-[#BB8C5F]"
+                  href="#home"
+                >
+                  Home
+                </Navbar.Link>
+                <Navbar.Link
+                  className="link-btn text-white hover:text-[#BB8C5F]"
+                  href="#about"
+                >
+                  About
+                </Navbar.Link>
+                <Navbar.Link
+                  className="link-btn text-white hover:text-[#BB8C5F]"
+                  href="#contact"
+                >
+                  Contact
+                </Navbar.Link>
+              </Navbar.Collapse>
+            </Navbar>
           </header>
-          <div className=" w-[40%] mt-32">
-            <h1 className="text-5xl font-bold leading-normal">
+          <div className="w-[65%]  md:w-[40%] mt-32">
+            <h1 className="text-3xl md:text-5xl font-bold leading-normal">
               Welcome to Our Vehicle Rental Service
             </h1>
           </div>
         </div>
       </section>
-      <section id="about" className="bg-black pb-36">
+      <section id="about" className="bg-black pb-4 md:pb-36">
         <div className="max-w-[1000px] mx-auto text-white pt-12">
           <h2 className="text-4xl font-bold my-16 text-center">About us</h2>
-          <div className="flex justify-between">
-            <div className="w-[40%] my-auto">
-              <p className="leading-loose">
+          <div className="flex flex-col md:flex-row justify-between">
+            <div className="md:w-[40%] my-auto">
+              <p className="leading-loose m-4">
                 At Ndickers car rental, we are more than just a car rental
                 company. We are your travel companion, your road trip partners
                 and your ticket to exploration.

@@ -1,15 +1,15 @@
 import editIcon from "../assets/edit.svg";
 import deleteIcon from "../assets/delete.svg";
 import { useDeleteReportMutation } from "../features/api/vehiclesApi";
-import { BallTriangle } from 'react-loader-spinner';
+import { BallTriangle } from "react-loader-spinner";
 
-export default function ContactReport(props:any) {
+export default function ContactReport(props: any) {
   const [deleteReport, { error, isError, isLoading }] =
     useDeleteReportMutation();
   const date = new Date(props.createdAt);
 
   const localDate = date.toLocaleDateString();
-  if(isLoading){
+  if (isLoading) {
     return (
       <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">
         <BallTriangle
@@ -22,11 +22,12 @@ export default function ContactReport(props:any) {
           wrapperClass=""
           visible={true}
         />
-      </div>)
+      </div>
+    );
   }
-  if(isError){
+  if (isError) {
     console.log(error);
-    return <h1>Error, unable to delete</h1>
+    return <h1>Error, unable to delete</h1>;
   }
 
   return (
@@ -54,7 +55,7 @@ export default function ContactReport(props:any) {
                   });
                 }}
               >
-                <img src={editIcon} alt=""  />
+                <img src={editIcon} alt="" />
               </button>
               <button
                 onClick={async () => {
@@ -67,7 +68,7 @@ export default function ContactReport(props:any) {
                 }}
                 className="w-8 border-white border rounded-lg"
               >
-                <img className="w-full" src={deleteIcon} alt=""  />
+                <img className="w-full" src={deleteIcon} alt="" />
               </button>
             </div>
             <div className="mt-[1.1rem] text-[#467FD0]">

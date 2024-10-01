@@ -2,7 +2,7 @@ import FleetForm from "../../../components/adminForms/FleetForm";
 import { useState } from "react";
 import { useGetFleetQuery } from "../../../features/api/vehiclesApi";
 import { useDeleteFleetMutation } from "../../../features/api/vehiclesApi";
-import { BallTriangle } from 'react-loader-spinner';
+import { BallTriangle } from "react-loader-spinner";
 export default function Users() {
   const [showFleetForm, setShowFleetForm] = useState({
     fleet: null,
@@ -76,8 +76,6 @@ export default function Users() {
       </tr>
     );
   });
-
-
 
   return (
     <div>

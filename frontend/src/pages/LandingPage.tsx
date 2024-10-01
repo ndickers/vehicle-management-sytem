@@ -6,7 +6,7 @@ import viber from "../assets/Viber.svg";
 import viber1 from "../assets/Viber1.svg";
 import call from "../assets/Call.svg";
 import emailIcon from "../assets/Union.svg";
-import { Button, Navbar } from "flowbite-react";
+import { Navbar } from "flowbite-react";
 export default function LandingPage() {
   return (
     <div>

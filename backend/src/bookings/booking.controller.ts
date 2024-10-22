@@ -54,7 +54,6 @@ export async function getUserBookings(c: Context) {
   }
 }
 
-
 export async function createBooking(c: Context) {
   const booking = await c.req.json();
   try {
@@ -70,9 +69,9 @@ export async function createBooking(c: Context) {
 
 export async function updateBooking(c: Context) {
   const id = Number(c.req.param("id"));
-  const bookingUpdates = await c.req.json();
+  const updateBooking = await c.req.json();
   try {
-    const update = await serveBookingUpdate(bookingUpdates, id);
+    const update = await serveBookingUpdate(updateBooking, id);
     if (update === null) {
       return c.json({ error: "Server error" }, 500);
     }
@@ -84,8 +83,6 @@ export async function updateBooking(c: Context) {
     return c.json({ error }, 404);
   }
 }
-
-
 
 export async function deleteBooking(c: Context) {
   const id = Number(c.req.param("id"));

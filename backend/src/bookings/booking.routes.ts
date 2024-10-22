@@ -21,18 +21,16 @@ const schema = z.object({
   totalAmount: z.number().positive(),
 });
 
-
-
-bookingRoutes.get("/bookings",adminAuth ,getBookings);
-bookingRoutes.get("/bookings/:id",authorizeAll , getOneBooking);
-bookingRoutes.get("/bookings/user/:id" , getUserBookings);
-
+bookingRoutes.get("/bookings", adminAuth, getBookings);
+bookingRoutes.get("/bookings/:id", authorizeAll, getOneBooking);
+bookingRoutes.get("/bookings/user/:id", getUserBookings);
 
 bookingRoutes.post(
   "/bookings",
-  zValidator("json", schema, validateInput),authorizeAll,
+  zValidator("json", schema, validateInput),
+  authorizeAll,
   createBooking
 );
 
-bookingRoutes.put("/bookings/:id", authorizeAll,updateBooking);
-bookingRoutes.delete("/bookings/:id",authorizeAll, deleteBooking);
+bookingRoutes.put("/bookings/:id", updateBooking);
+bookingRoutes.delete("/bookings/:id", authorizeAll, deleteBooking);

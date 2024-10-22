@@ -2,8 +2,6 @@ import db from "../drizzle/db";
 import { eq } from "drizzle-orm";
 import { TSUsers, TIUsers, users } from "../drizzle/schema";
 
-
-
 export async function serveUsers(): Promise<TSUsers[] | null> {
   return await db.query.users.findMany({
     with: {
@@ -59,6 +57,7 @@ export async function createUserService(
     fullname: users.fullname,
     email: users.email,
     phone: users.phone,
+    verified: users.verified,
     address: users.address,
     role: users.role,
     createdAt: users.createdAt,
@@ -72,6 +71,14 @@ export async function serveUserUpdate(updateDetails: TIUsers, id: number) {
     .set(updateDetails)
     .where(eq(users.id, id))
     .returning({ users });
+}
+
+export async function serveVerifyUser(id: number) {
+  return await db
+    .update(users)
+    .set({ verified: true })
+    .where(eq(users.id, id))
+    .returning({ id: users.id });
 }
 
 export async function serveUserDelete(id: number) {

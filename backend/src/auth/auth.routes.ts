@@ -2,7 +2,13 @@ import { z } from "zod";
 import { zValidator } from "@hono/zod-validator";
 import { Hono, Context } from "hono";
 import { validateInput } from "../middleware/validate";
-import { registerUser, loginUser } from "./auth.controller";
+import {
+  registerUser,
+  loginUser,
+  confirmRegistration,
+  resetPassword,
+  setPassword,
+} from "./auth.controller";
 
 export const authRoutes = new Hono();
 
@@ -32,3 +38,9 @@ authRoutes.post(
   zValidator("json", schema2, validateInput),
   loginUser
 );
+
+authRoutes.post("/reset-password", resetPassword);
+
+authRoutes.post("/confirm-registration", confirmRegistration);
+
+authRoutes.put("new-password", setPassword);

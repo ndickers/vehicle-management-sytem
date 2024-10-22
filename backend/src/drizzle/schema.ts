@@ -17,13 +17,35 @@ export const users = pgTable("users", {
   email: varchar("email").notNull(),
   phone: varchar("contact_phone").notNull(),
   address: varchar("address").notNull(),
+  verified: boolean("verified").default(false),
   role: varchar("role").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at"),
 });
 
+export const verification_tokens = pgTable("verification_tokens", {
+  token_id: serial("token_id").primaryKey(),
+  user_id: integer("user_id")
+    .notNull()
+    .references(() => users.id),
+  token: varchar("token").notNull(),
+  expires_at: timestamp("expires_at").notNull(),
+  created_at: timestamp("updated_at").defaultNow(),
+});
+
+export const verificationRelations = relations(
+  verification_tokens,
+  ({ one }) => ({
+    users: one(users, {
+      fields: [verification_tokens.user_id],
+      references: [users.id],
+    }),
+  })
+);
+
 export const userRelations = relations(users, ({ many, one }) => ({
   bookings: many(bookings),
+  verification_tokens: many(verification_tokens),
   customerSupportTickets: many(customerSupportTicket),
   authentication: one(authentication, {
     fields: [users.id],
@@ -220,3 +242,6 @@ export type TICustomerSupport = typeof customerSupportTicket.$inferInsert;
 
 export type TSAuth = typeof authentication.$inferSelect;
 export type TIAuth = typeof authentication.$inferInsert;
+
+export type TSToken = typeof verification_tokens.$inferSelect;
+export type TIToken = typeof verification_tokens.$inferInsert;

@@ -6,7 +6,6 @@ import {
   serveUserDelete,
 } from "./users.service";
 
-import { TIUsers } from "../drizzle/schema";
 import { Context } from "hono";
 export async function getUsers(c: Context) {
   try {

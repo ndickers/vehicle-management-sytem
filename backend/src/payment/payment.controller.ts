@@ -3,7 +3,6 @@ import {
   createPaymentService,
   getAllPaymentService,
   getOnePaymentService,
-  getUserbooking,
   servePaymentDelete,
 } from "./payment.service";
 import "dotenv/config";

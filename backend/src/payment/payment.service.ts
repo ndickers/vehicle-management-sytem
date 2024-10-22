@@ -12,7 +12,7 @@ export async function getOnePaymentService(
   return await db.query.payments.findMany({ where: eq(payments.id, id) });
 }
 
-export async function getUserbooking(id: number) {
+export async function getUserUnpaidbooking(id: number) {
   return await db.query.bookings.findMany({
     where: and(eq(bookings.userId, id), eq(bookings.bookingStatus, "unpaid")),
     with: {

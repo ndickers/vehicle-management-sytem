@@ -1,5 +1,6 @@
+import { vehicleSpec } from "./../drizzle/schema";
 import db from "../drizzle/db";
-import { eq } from "drizzle-orm";
+import { eq, or } from "drizzle-orm";
 import {
   TSBooking,
   TIBooking,
@@ -41,6 +42,13 @@ export async function serveUserBooking(id: number): Promise<any> {
       locationId: false,
       userId: false,
     },
+    with: {
+      vehicles: {
+        with: {
+          vehicle_specification: true,
+        },
+      },
+    },
   });
 }
 
@@ -71,11 +79,14 @@ export async function createBookingService(
   });
 }
 
-export async function serveBookingUpdate(updateDetails: TIBooking, id: number) {
+export async function serveBookingUpdate(
+  updateDetails: { bookingStatus: string },
+  id: number
+) {
   return await db
     .update(bookings)
     .set(updateDetails)
-    .where(eq(bookings.id, id))
+    .where(or(eq(bookings.bookingStatus, "unpaid"), eq(bookings.userId, id)))
     .returning({
       id: bookings.id,
       returnDate: bookings.returnDate,

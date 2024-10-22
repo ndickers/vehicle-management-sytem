@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-interface AdminLoginState {
+export interface AdminLoginState {
   user: any;
   token: string | null;
   role: string | null;
@@ -27,14 +27,14 @@ export const adminLogin = createAsyncThunk(
       return response.data;
     } catch (error) {
       if (error) {
-        return thunkApi.rejectWithValue(error);
+        return thunkApi.rejectWithValue(error.message);
       }
     }
   }
 );
 
 const initialState: AdminLoginState = {
-  user: JSON.parse(localStorage.getItem("admin") ?? 'null'),
+  user: JSON.parse(localStorage.getItem("admin") ?? "null"),
   token: localStorage.getItem("adminToken") || null,
   role: localStorage.getItem("role") || null,
   loading: false,
@@ -48,12 +48,12 @@ const adminLoginSlice = createSlice({
       state.user = null;
       state.token = null;
       state.role = null;
-      state.loading = true;
+      state.loading = false;
       state.error = null;
       localStorage.removeItem("user");
       localStorage.removeItem("token");
       localStorage.removeItem("role");
-    }
+    },
   },
   extraReducers: (builder) => {
     builder

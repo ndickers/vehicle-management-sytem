@@ -1,11 +1,43 @@
 import editIcon from "../assets/edit.svg";
 import deleteIcon from "../assets/delete.svg";
-
+import { useDeleteBookingMutation } from "../features/api/vehiclesApi";
+import { toast } from "react-toastify";
+import { BallTriangle } from "react-loader-spinner";
 export default function BookedCar(props: any) {
   const date = new Date(props.createdAt);
 
   const localDate = date.toLocaleDateString();
   const localTime = date.toLocaleTimeString();
+  const [deleteBooking, { error, isError, isLoading, isSuccess }] =
+    useDeleteBookingMutation();
+
+  async function handleDeleteBooking() {
+    await deleteBooking(props.id).unwrap();
+  }
+
+  if (isError) {
+    toast.error("Unable to delete booking");
+    console.log(error);
+  }
+  if (isSuccess) {
+    toast.success("Booking successfully deleted");
+  }
+  if (isLoading) {
+    return (
+      <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">
+        <BallTriangle
+          height={150}
+          width={150}
+          radius={9}
+          color="white"
+          ariaLabel="ball-triangle-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="rounded-2xl">
@@ -44,7 +76,10 @@ export default function BookedCar(props: any) {
               <button className="w-8 mr-2 border-white border rounded-lg">
                 <img src={editIcon} alt="" />
               </button>
-              <button className="w-8 border-white border rounded-lg">
+              <button
+                onClick={handleDeleteBooking}
+                className="w-8 border-white border rounded-lg"
+              >
                 <img className="w-full" src={deleteIcon} alt="" />
               </button>
             </div>

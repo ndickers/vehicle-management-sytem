@@ -1,8 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm, FieldError } from "react-hook-form";
 import { useState } from "react";
 import { useRegisterUserMutation } from "../features/api/vehiclesApi";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { BallTriangle } from "react-loader-spinner";
 
@@ -10,10 +9,12 @@ export default function Register() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
   const [showMessage, setShowMessage] = useState(false);
   const navigate = useNavigate();
+
   const [registerUser, { isError, isLoading, error }] = useRegisterUserMutation(
     {}
   );
@@ -29,13 +30,14 @@ export default function Register() {
           role: "user",
         }).unwrap();
         console.log(result);
-        if (result.message === "user created") {
-          toast.success("user created successfull");
-          navigate("/login/user");
+        if (result.message === "confirm email") {
+          toast.success("Registration successful, confirm your email");
+          reset();
         }
       } catch (error) {
-        toast.error("user created failed");
-        console.log(error);
+        toast.error(error.data.message);
+        navigate("/login/user");
+        console.log(error.data.message);
       }
     } else {
       setShowMessage(true);
@@ -61,7 +63,7 @@ export default function Register() {
     console.log(error);
     return (
       <div className="bg-black">
-        <h1 className="text-white">Servere error. unable to register</h1>
+        <h1 className="text-white">Server error. unable to register</h1>
       </div>
     );
   }
@@ -139,7 +141,27 @@ export default function Register() {
             </p>
           )}
           <input
-            {...register("password", { required: "password is required" })}
+            {...register("password", {
+              required: "Password is required",
+              minLength: {
+                value: 8,
+                message: "Password must be at least 8 characters long",
+              },
+              validate: {
+                hasUpperCase: (value) =>
+                  /[A-Z]/.test(value) ||
+                  "Password must contain at least one uppercase letter",
+                hasLowerCase: (value) =>
+                  /[a-z]/.test(value) ||
+                  "Password must contain at least one lowercase letter",
+                hasNumber: (value) =>
+                  /[0-9]/.test(value) ||
+                  "Password must contain at least one number",
+                hasSpecialChar: (value) =>
+                  /[!@#$%^&*(),.?":{}|<>]/.test(value) ||
+                  "Password must contain at least one special character",
+              },
+            })}
             className="form-input"
             type="password"
             placeholder="password"

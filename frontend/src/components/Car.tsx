@@ -8,7 +8,7 @@ export default function Car(props: any) {
   const localDate = date.toLocaleDateString();
   const localTime = date.toLocaleTimeString();
   return (
-    <div className="w-[15rem] bg-white text-black contain-content rounded-xl p-4">
+    <div className=" bg-white w-[100%] md:max-w-[15rem] text-black contain-content rounded-xl p-4">
       <img
         className="w-full h-[10rem] object-cover "
         src={props.image}
@@ -16,7 +16,7 @@ export default function Car(props: any) {
       />
       <div className="mt-4 w-full">
         <p>
-          <span className="font-semibold">Name:</span>{" "}
+          <span className="font-semibold">Name:</span>
           {props?.vehicle_specification?.model}
         </p>
         <p>
@@ -98,5 +98,3 @@ export default function Car(props: any) {
     </div>
   );
 }
-
-

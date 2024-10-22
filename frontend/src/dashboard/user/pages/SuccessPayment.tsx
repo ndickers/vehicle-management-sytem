@@ -1,9 +1,28 @@
 import successIcon from "../../../assets/success-icon.png";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../app/store";
+import { useEffect } from "react";
+import { useUpdateBookingMutation } from "../../../features/api/vehiclesApi";
 
 export default function SuccessPayment() {
   const navigate = useNavigate();
+  const userInfo = useSelector((state: RootState) => state.loginUser);
+  const [updateBooking, { isError: bookingIsError, error: bookingError }] =
+    useUpdateBookingMutation();
 
+  useEffect(() => {
+    async function updateBookingEffect() {
+      await updateBooking({
+        book: { bookingStatus: "paid" },
+        id: userInfo.user.id,
+      }).unwrap();
+    }
+    updateBookingEffect();
+  }, []);
+  if (bookingIsError) {
+    console.log(bookingError);
+  }
   return (
     <div>
       <div

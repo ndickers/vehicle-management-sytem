@@ -16,7 +16,7 @@ const addingHeader = (headers: any) => {
 export const vehicleApi = createApi({
   reducerPath: "vehicleApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://vehicle-management-sytem.onrender.com",
+    baseUrl: "https://vehicle-management-sytem.onrender.com/",
     prepareHeaders: addingHeader,
   }),
   tagTypes: ["Vehicle", "Location", "Fleet", "User", "Report", "Booking"],
@@ -45,6 +45,10 @@ export const vehicleApi = createApi({
       query: (id) => `/customer-support/${id}`,
       providesTags: [{ type: "Report", id: "ID" }],
     }),
+    getBookings: builder.query({
+      query: (id) => `/bookings/user/${id}`,
+      providesTags: [{ type: "Booking", id: "ID" }],
+    }),
     getAllReports: builder.query({
       query: () => `/customer-support`,
       providesTags: ["Report"],
@@ -56,6 +60,13 @@ export const vehicleApi = createApi({
         body: vehicle,
       }),
       invalidatesTags: ["Vehicle"],
+    }),
+    confirmRegistration: builder.mutation({
+      query: (token) => ({
+        url: "/confirm-registration",
+        method: "POST",
+        body: token,
+      }),
     }),
     createUser: builder.mutation({
       query: (user) => ({
@@ -178,6 +189,14 @@ export const vehicleApi = createApi({
       }),
       invalidatesTags: [{ type: "Report", id: "ID" }],
     }),
+    updateBooking: builder.mutation({
+      query: ({ book, id }) => ({
+        url: `/bookings/${id}`,
+        method: "PUT",
+        body: book,
+      }),
+      invalidatesTags: [{ type: "Booking", id: "ID" }],
+    }),
     deleteReport: builder.mutation({
       query: (id) => ({
         url: `/customer-support/${id}`,
@@ -191,6 +210,27 @@ export const vehicleApi = createApi({
         method: "DELETE",
       }),
       invalidatesTags: ["Vehicle"],
+    }),
+    deleteBooking: builder.mutation({
+      query: (id) => ({
+        url: `/bookings/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Booking"],
+    }),
+    resetPass: builder.mutation({
+      query: (email: { email: string }) => ({
+        url: "reset-password",
+        method: "POST",
+        body: email,
+      }),
+    }),
+    updatePass: builder.mutation({
+      query: (resetDetails: { token: string; password: string }) => ({
+        url: "new-password",
+        method: "PUT",
+        body: resetDetails,
+      }),
     }),
     createCheckout: builder.mutation({
       query: (bookingList) => ({
@@ -210,15 +250,20 @@ export const {
   useRegisterUserMutation,
   useDeleteFleetMutation,
   useGetFleetQuery,
+  useGetBookingsQuery,
+  useDeleteBookingMutation,
   useUpdateFleetMutation,
   useCreateFleetMutation,
   useDeleteLocationMutation,
+  useResetPassMutation,
   useDeleteUserMutation,
   useUpdateLocationMutation,
   useUpdateUserMutation,
   useGetUsersQuery,
+  useUpdatePassMutation,
   useCreateUserMutation,
   useDeleteReportMutation,
+  useUpdateBookingMutation,
   useUpdateReportMutation,
   useGetReportsQuery,
   useCreateReportMutation,
@@ -227,6 +272,7 @@ export const {
   useCreateBookingMutation,
   useGetVehiclesQuery,
   useGetLocationQuery,
+  useConfirmRegistrationMutation,
   useCreateVehicleSpecMutation,
   useCreateVehicleMutation,
   useCreateLocationMutation,

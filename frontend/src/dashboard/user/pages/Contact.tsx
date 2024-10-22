@@ -1,17 +1,16 @@
-import DashHeader from "./DashHeader";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useCreateReportMutation } from "../../../features/api/vehiclesApi";
 import { RootState } from "../../../app/store";
 import { BallTriangle } from "react-loader-spinner";
-
+import { toast } from "react-toastify";
 export default function Contact() {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [createReport, { error, isLoading, isError }] =
+  const [createReport, { error, isLoading, isError, isSuccess }] =
     useCreateReportMutation();
   const userId = useSelector((state: RootState) => state.loginUser.user.id);
 
@@ -48,11 +47,14 @@ export default function Contact() {
   }
   if (isError) {
     console.log(error);
-    return <h1>Unable to send report</h1>;
+    toast.error("Unable to submit report ticket");
+  }
+
+  if (isSuccess) {
+    toast.success("Report ticket submitted, successfully");
   }
   return (
-    <div className="px-16 pt-12 w-full">
-      <DashHeader title="contact support" />
+    <div className="lg:px-16 px-4 pt-4 mx-auto lg:pt-12 w-[100%] lg:w-[150%]">
       <div className="w-[100%] my-3">
         <h1 className="text-center text-2xl font-bold mb-6">report issue</h1>
         <form

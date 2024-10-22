@@ -18,6 +18,9 @@ import ManageSupport from "./dashboard/user/pages/ManageSupport";
 import SuccessPayment from "./dashboard/user/pages/SuccessPayment";
 import FailedPayment from "./dashboard/user/pages/FailedPayment";
 import { ToastContainer } from "react-toastify";
+import PassReset from "./pages/PassReset";
+import Reset from "./pages/Reset";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -26,6 +29,8 @@ const router = createBrowserRouter([
   { path: "/login/admin", element: <AdminLogin /> },
   { path: "/login/user", element: <UserLogin /> },
   { path: "/register", element: <RegisterUser /> },
+  { path: "/reset-password", element: <PassReset /> },
+  { path: "/reset", element: <Reset /> },
 
   {
     path: "/dashboard/admin",
@@ -54,7 +59,7 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <div className="bg-black root">
+    <div className="bg-black pt-8 root min-h-[100vh] h-[100%]">
       <RouterProvider router={router} />
       <ToastContainer />
     </div>

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useForm, FieldError } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,7 +6,9 @@ import { useState, useEffect } from "react";
 import { userLogin } from "../features/login/userLoginSlice";
 import { adminLogin } from "../features/login/adminLoginSlice";
 import { RootState, AppDispatch } from "../app/store";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
+import { BallTriangle } from "react-loader-spinner";
+import { useConfirmRegistrationMutation } from "../features/api/vehiclesApi";
 interface LoginProps {
   title: string;
 }
@@ -22,13 +24,23 @@ export default function Login({ title }: LoginProps) {
     formState: { errors },
   } = useForm<LoginFormData>();
   const [message, setMessage] = useState<string | null>(null);
+  const [searchParam] = useSearchParams();
+  const token = searchParam.get("token");
+  const [
+    confirmRegistration,
+    {
+      error: regError,
+
+      isError: regIsError,
+      isSuccess: regIsSuccess,
+    },
+  ] = useConfirmRegistrationMutation();
   const dispatch = useDispatch<AppDispatch>();
   const response = useSelector((state: RootState) => state.loginUser);
   const adminRes = useSelector((state: RootState) => state.loginAdmin);
   const navigate = useNavigate();
 
   async function handleLogin(data: LoginFormData): Promise<any> {
-    
     if (title === "User") {
       const logins = { ...data, role: "user" };
       dispatch(userLogin(logins));
@@ -45,19 +57,64 @@ export default function Login({ title }: LoginProps) {
     }
   }
 
+  if (
+    response.error &&
+    typeof response.error === "object" &&
+    "data" in response
+  ) {
+    toast.error((response.error as { data: { message: string } }).data.message);
+  }
+
+  useEffect(() => {
+    async function confirmUser() {
+      if (token) {
+        await confirmRegistration({ token }).unwrap();
+      }
+    }
+    confirmUser();
+  }, []);
   useEffect(() => {
     if (title === "User") {
       if (response.user !== null) {
-        toast.success("login successfull")
+        toast.success("login successful");
         navigate("/dashboard/user");
       }
     } else {
       if (adminRes.user !== null) {
-        toast.success("login successfull")
+        toast.success("login successful");
         navigate("/dashboard/admin");
       }
     }
   }, [navigate, title, adminRes.user, response.user]);
+
+  if (regIsSuccess) {
+    toast.success("Confirmation successful. Sign in");
+  }
+  if (regIsError) {
+    console.log(regError);
+
+    toast.error("Email confirmation failed");
+  }
+
+  if (response.loading) {
+    return (
+      <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">
+        <BallTriangle
+          height={150}
+          width={150}
+          radius={9}
+          color="white"
+          ariaLabel="ball-triangle-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+          visible={true}
+        />
+      </div>
+    );
+  }
+  if (response.error) {
+    console.log({ err: response.error });
+  }
 
   return (
     <div id="login" className="h-[100vh] flex justify-center items-center">
@@ -65,6 +122,13 @@ export default function Login({ title }: LoginProps) {
         <h1 className="text-center text-white text-3xl font-bold mb-4">
           {title}
         </h1>
+
+        <Link
+          to={"/reset"}
+          className="text-center block text-blue-600 hover:text-blue-400 underline"
+        >
+          forgot password
+        </Link>
 
         {message !== null && (
           <p className="text-center font-semibold text-xl text-[#d9534f] ">

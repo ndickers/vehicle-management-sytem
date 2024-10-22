@@ -90,13 +90,13 @@ export default function LandingPage() {
         <h2 className="text-4xl font-bold my-16 text-white text-center">
           Contact
         </h2>
-        <div className="flex w-full justify-between px-32 py-28">
-          <div className="flex w-[50%] pl-12 gap-24 ">
+        <div className=" mx-4 flex md:flex-row flex-col w-full justify-between md:px-32 md:py-28">
+          <div className="flex md:w-[50%]  md:pl-12 md:gap-24 ">
             <div className="text-white opacity-70">
               <img src={logo} alt="" />
-              <p className="mt-12 ml-8">254 car higher</p>
+              <p className="mt-12 ml-4 md:ml-8">254 car higher</p>
             </div>
-            <div className="text-white  flex flex-wrap justify-between gap-x-16 gap-y-4 w-[15rem]">
+            <div className="text-white gap-2 flex flex-wrap md:justify-between md:gap-x-16 md:gap-y-4 md:w-[15rem]">
               <a className="hover:text-[#BB8C5F]" href="http://">
                 discount
               </a>
@@ -114,7 +114,7 @@ export default function LandingPage() {
               </a>
             </div>
           </div>
-          <div className="w-[50%] pl-36">
+          <div className="md:w-[50%] ml-4 mt-8 md:mt-0 md:pl-36">
             <div>
               <div className="flex gap-4">
                 <div className="flex gap-4 items-center text-white ">
@@ -127,9 +127,11 @@ export default function LandingPage() {
                   <img src={viber1} alt="" />
                 </div>
               </div>
-              <p className="text-white opacity-50 mt-4">24 hours operational</p>
+              <p className="text-white opacity-50  mt-4">
+                24 hours operational
+              </p>
             </div>
-            <div className="flex mt-8 text-white gap-4">
+            <div className="flex mt-8 pb-8 md:pb-0 text-white gap-4">
               <img src={emailIcon} alt="" />
               bryondickers@gmail.com
             </div>

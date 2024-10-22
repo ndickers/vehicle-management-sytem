@@ -16,7 +16,7 @@ export default function CustomerReportForm({
   setUpdateForm,
   reportId,
 }: CustomerReportFormProps) {
-  const [updateReport, { isError, isLoading, error }] =
+  const [updateReport, { isError, isLoading, error, isSuccess }] =
     useUpdateReportMutation();
   const { register, handleSubmit } = useForm<FormValues>();
 
@@ -26,7 +26,7 @@ export default function CustomerReportForm({
         report: data,
         id: reportId,
       }).unwrap();
-      toast.success("report updated successfull");
+
       setUpdateForm((prevData: { report: any; show: boolean }) => ({
         ...prevData,
         show: false,
@@ -55,6 +55,7 @@ export default function CustomerReportForm({
       </div>
     );
   }
+
   if (isError) {
     console.log(error);
     toast.error("report update failed");
@@ -63,6 +64,9 @@ export default function CustomerReportForm({
       show: false,
     }));
     return <h1>Error, unable to update report</h1>;
+  }
+  if (isSuccess) {
+    toast.success("report updated successfully");
   }
 
   return (

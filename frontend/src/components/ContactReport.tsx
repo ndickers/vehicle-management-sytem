@@ -2,6 +2,7 @@ import editIcon from "../assets/edit.svg";
 import deleteIcon from "../assets/delete.svg";
 import { useDeleteReportMutation } from "../features/api/vehiclesApi";
 import { BallTriangle } from "react-loader-spinner";
+import { toast } from "react-toastify";
 
 export default function ContactReport(props: any) {
   const [deleteReport, { error, isError, isLoading }] =
@@ -27,7 +28,8 @@ export default function ContactReport(props: any) {
   }
   if (isError) {
     console.log(error);
-    return <h1>Error, unable to delete</h1>;
+
+    toast.error("Delete report failed");
   }
 
   return (

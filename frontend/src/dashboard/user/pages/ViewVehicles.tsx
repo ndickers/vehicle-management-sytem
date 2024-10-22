@@ -1,4 +1,3 @@
-import DashHeader from "./DashHeader";
 import Car from "../../../components/Car";
 import { useState } from "react";
 import BookingForm from "../../../components/userForm/BookingForm";
@@ -55,9 +54,8 @@ export default function ViewVehicles() {
     />
   ));
   return (
-    <div className="px-16 pt-12 w-full">
-      <DashHeader title="vehicles" />
-      <div className=" overflow-auto h-full mt-12 flex gap-12 flex-wrap items-start">
+    <div className=" w-[100%]">
+      <div className=" overflow-auto h-full md:mt-12 flex gap-6 md:gap-12 flex-wrap items-start">
         {displayVehicles}
       </div>
       {showBookForm.show && (

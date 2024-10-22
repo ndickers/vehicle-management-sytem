@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-interface UserLoginState {
+export interface UserLoginState {
   user: any;
   token: string | null;
   loading: boolean;
@@ -27,7 +27,7 @@ export const userLogin = createAsyncThunk<any, any, { rejectValue: any }>(
       return response.data;
     } catch (error) {
       if (error) {
-        return thunkApi.rejectWithValue(error);
+        return thunkApi.rejectWithValue(error.response);
       }
     }
   }
@@ -40,7 +40,6 @@ const initialState: UserLoginState = {
   loading: false,
   error: null,
 };
-
 const userLoginSlice = createSlice({
   name: "loginUser",
   initialState,
@@ -49,7 +48,7 @@ const userLoginSlice = createSlice({
       state.user = null;
       state.token = null;
       state.role = null;
-      state.loading = true;
+      state.loading = false;
       state.error = null;
       localStorage.removeItem("user");
       localStorage.removeItem("token");

@@ -15,7 +15,12 @@ export default function BookingForm({ setShowBookForm, showBookForm }: any) {
 
   const [
     createBooking,
-    { error: createError, isLoading: createIsLoading, isError: createIsError },
+    {
+      error: createError,
+      isLoading: createIsLoading,
+      isError: createIsError,
+      isSuccess,
+    },
   ] = useCreateBookingMutation();
   const [calculatedHours, setCalculatedHours] = useState(1);
 
@@ -58,21 +63,12 @@ export default function BookingForm({ setShowBookForm, showBookForm }: any) {
     try {
       const result = await createBooking(bookedVehicle).unwrap();
       reset();
-      toast.success("booked successfull");
       setShowBookForm((prevData: any) => ({ ...prevData, show: false }));
       console.log(result);
     } catch (error) {
       console.log(error);
     }
   }
-  if (createIsError) {
-    console.log(createError);
-    toast.error("booking failed")
-    return (
-      <h1 className="text-[#d9534f]">Server error occured while booking</h1>
-    );
-  }
-
   if (createIsLoading) {
     return (
       <div className="absolute top-0 opacity-70 flex items-center justify-center left-0 h-[100vh] w-[100vw] bg-black">
@@ -88,6 +84,14 @@ export default function BookingForm({ setShowBookForm, showBookForm }: any) {
         />
       </div>
     );
+  }
+
+  if (createIsError) {
+    console.log(createError);
+    toast.error("booking failed");
+  }
+  if (isSuccess) {
+    toast.success("booking successfully");
   }
 
   return (

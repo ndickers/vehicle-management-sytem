@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 import { BallTriangle } from "react-loader-spinner";
 import { useConfirmRegistrationMutation } from "../features/api/vehiclesApi";
 interface LoginProps {
-  title: string;
+  title: "User" | "Admin";
 }
 interface LoginFormData {
   email: string;

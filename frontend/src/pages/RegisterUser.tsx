@@ -35,8 +35,7 @@ export default function Register() {
           reset();
         }
       } catch (error) {
-        toast.error(error.data.message);
-        navigate("/login/user");
+        toast.error("Unable to register user");
         console.log(error.data.message);
       }
     } else {
@@ -56,14 +55,6 @@ export default function Register() {
           wrapperClass=""
           visible={true}
         />
-      </div>
-    );
-  }
-  if (isError) {
-    console.log(error);
-    return (
-      <div className="bg-black">
-        <h1 className="text-white">Server error. unable to register</h1>
       </div>
     );
   }

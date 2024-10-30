@@ -4,7 +4,18 @@ import { useDeleteReportMutation } from "../features/api/vehiclesApi";
 import { BallTriangle } from "react-loader-spinner";
 import { toast } from "react-toastify";
 
-export default function ContactReport(props: any) {
+type ContactProps = {
+  id: number;
+  createdAt: string;
+  subject: string;
+  description: string;
+  status: string;
+  setUpdateForm: React.Dispatch<
+    React.SetStateAction<{ id: number; show: boolean }>
+  >;
+};
+
+export default function ContactReport(props: ContactProps) {
   const [deleteReport, { error, isError, isLoading }] =
     useDeleteReportMutation();
   const date = new Date(props.createdAt);

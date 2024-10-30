@@ -55,7 +55,7 @@ export async function registerUser(c: Context) {
 
         const sendToken = await createTokenService(verificationDetails);
         if (sendToken?.length !== 0) {
-          const url = `http://localhost:5173/login/user?token=${token}`;
+          const url = `${process.env.BASE_URL}/login/user?token=${token}`;
           try {
             const res = await send(
               url,
@@ -153,7 +153,7 @@ export async function resetPassword(c: Context) {
           if (createToken !== null) {
             if (createToken.length !== 0) {
               try {
-                const url = `http://localhost:5173/reset-password?token=${token}`;
+                const url = `${process.env.BASE_URL}/reset-password?token=${token}`;
                 const res = await send(url, "Reset password", email.email);
                 return c.json({ message: "confirm email", info: res });
               } catch (error) {
@@ -170,7 +170,7 @@ export async function resetPassword(c: Context) {
         if (createToken !== null) {
           if (createToken.length !== 0) {
             try {
-              const url = `http://localhost:5173/reset-password?token=${token}`;
+              const url = `${process.env.BASE_URL}/reset-password?token=${token}`;
               const res = await send(url, "Reset password", email.email);
               return c.json({ message: "confirm email", info: res });
             } catch (error) {
